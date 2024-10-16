@@ -1,30 +1,124 @@
 :root {
-    --header-background: #ccc;
+    --header-background: #f2f2f2;
+    --primary-button-background: lightgreen;
+    --primary-button-background-hover: palegreen;
+    --primary-padding: 4px 10px;
+    --primary-border-radius: 6px;
+    --80-percents: 80%;
 }
 
 .flex {
     display: flex;
 }
 
+.column {
+    flex-direction: column;
+}
+
+.btn-reset {
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.link-reset {
+    text-decoration: none;
+    color: unset;
+}
+
+.col-main {
+    flex-grow: 3;
+}
+
+.col-slave {
+    flex-grow: 1;
+}
+
 /* header */
 .header {
     width: 100%;
-    background-color: var(--header-background);
+    border-bottom: 1px solid var(--header-background);
+    box-shadow: rgba(0,0,0,0.2) 0 1px;
 }
 
 .header-wrapper {
     max-width: 1080px;
     justify-content: space-between;
+    align-items: center;
     margin: 0 auto;
     padding-top: 16px;
     padding-bottom: 16px;
+    gap: 22px;
 }
 
 .main-logo {
-    background-color: crimson;
 }
 
 .img-logo {
-    width: 32px;
-    height: 32px;
+    width: 4rem;
+    height: 4rem;
+    max-width: 64px;
+    max-height: 64px;
+}
+
+.main-btn-search {
+    padding: var(--primary-padding);
+    border-radius: var(--primary-border-radius);
+    background-color: var(--primary-button-background);
+    box-shadow: forestgreen 1px 1px;
+    width: calc( (100% - var(--80-percents)) * 0.9);
+    --webkit-transition: 128ms all ease-in-out;
+    transition: 128ms all ease-in-out;
+}
+
+.main-btn-search:hover {
+    cursor: pointer;
+    background-color: var(--primary-button-background-hover);
+}
+
+.main-input-field {
+    padding: var(--primary-padding);
+    border-radius: var(--primary-border-radius);
+    border: 1px solid #f2f2f2;
+    width: var(--80-percents);
+    padding-left: 35px;
+    background: #ffffff url("../assets/left-arrow.svg") 5px center no-repeat scroll;
+}
+
+.profile-block {
+    align-items: center;
+    gap: 18px;
+}
+
+.profile-img {
+    width: 3rem;
+    height: 3rem;
+    max-width: 64px;
+    max-height: 64px;
+    border-radius: 50%;
+    border: 1px solid var(--header-background);
+}
+
+.username-wrapper {
+    gap: 2px;
+}
+
+.profile-controller {
+    gap: 4px;
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+.profile-controller-link {
+    background-color: var(--header-background);
+    padding: 2px 4px;
+    border-radius: var(--primary-border-radius);
+    box-shadow: lightgray 1px 1px;
+    --webkit-transition: 128ms all ease-in-out;
+    transition: 128ms all ease-in-out;
+}
+
+.profile-controller-link:hover {
+    cursor: pointer;
+    background-color: lightgray;
 }
