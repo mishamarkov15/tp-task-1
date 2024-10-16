@@ -1,0 +1,30 @@
+:root {
+    --header-background: #ccc;
+}
+
+.flex {
+    display: flex;
+}
+
+/* header */
+.header {
+    width: 100%;
+    background-color: var(--header-background);
+}
+
+.header-wrapper {
+    max-width: 1080px;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.main-logo {
+    background-color: crimson;
+}
+
+.img-logo {
+    width: 32px;
+    height: 32px;
+}
