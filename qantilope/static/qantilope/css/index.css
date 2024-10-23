@@ -1,6 +1,6 @@
 .main-block {
     max-width: var(--main-width);
-    margin: 0 auto;
+    margin: var(--margin-center);
     gap: 60px;
     padding-top: 60px;
 }
