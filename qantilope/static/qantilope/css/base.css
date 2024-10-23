@@ -1,10 +1,14 @@
 :root {
     --header-background: #f2f2f2;
-    --primary-button-background: lightgreen;
-    --primary-button-background-hover: palegreen;
+    --primary-button-background: #00FF86;
+    --primary-button-background-hover: #38FF5D;
+    --secondary-button-background: #BAD7F5;
+    --secondary-button-background-hover: #96E7FA;
+    --question-article-background: #f2f3f5;
     --primary-padding: 4px 10px;
     --primary-border-radius: 6px;
     --80-percents: 80%;
+    --main-width: 1080px;
 }
 
 .flex {
@@ -42,7 +46,7 @@
 }
 
 .header-wrapper {
-    max-width: 1080px;
+    max-width: var(--main-width);
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
@@ -65,7 +69,7 @@
     padding: var(--primary-padding);
     border-radius: var(--primary-border-radius);
     background-color: var(--primary-button-background);
-    box-shadow: forestgreen 1px 1px;
+    box-shadow: var(--primary-button-background-hover) 1px 1px;
     width: calc( (100% - var(--80-percents)) * 0.9);
     --webkit-transition: 128ms all ease-in-out;
     transition: 128ms all ease-in-out;
@@ -110,15 +114,28 @@
 }
 
 .profile-controller-link {
-    background-color: var(--header-background);
+    background-color: var(--secondary-button-background);
     padding: 2px 4px;
     border-radius: var(--primary-border-radius);
-    box-shadow: lightgray 1px 1px;
+    box-shadow: var(--secondary-button-background-hover) 1px 1px;
     --webkit-transition: 128ms all ease-in-out;
     transition: 128ms all ease-in-out;
 }
 
 .profile-controller-link:hover {
     cursor: pointer;
-    background-color: lightgray;
+    background-color: var(--secondary-button-background-hover);
+}
+
+/* resets */
+
+.lst-reset {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.h-reset {
+    margin: 0;
+    padding: 0;
 }

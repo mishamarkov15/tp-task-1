@@ -2,7 +2,7 @@
 
 {% block meta %}{% endblock %}
 
-{% block title %}QAntilope | Главная{% endblock %}
+{% block title %}QAlboran | Главная{% endblock %}
 
 {% load static %}
 
@@ -12,7 +12,76 @@
 {% endblock %}
 
 {% block body %}
-    <main class="flex">
+    <main class="flex main-block">
+        <section id="main-col" class="flex column">
+            <div class="flex h-wrapper">
+                <h1 class="h-reset h1-my"><a class="link-reset header-link">Новые вопросы</a></h1>
+                <h2 class="h-reset h2-my"><a class="link-reset header-link">Топ вопросы</a></h2>
+            </div>
+            <div class="flex questions-block column">
+                {% for i in 'ABCD' %}
+                <article class="flex question-article default-gap">
+                    <div class="flex avatar-col col-slave column default-gap">
+                        <img alt="Аватар пользователя" class="profile-img"
+                             src="{% get_media_prefix %}qantilope/index/default_avatar.png">
+                        <input type="number" min="0" max="999999" value="999999" class="number-input">
+                    </div>
+                    <div class="flex content-col col-main column">
+                        <h3 class="h-reset h3-my"><a class="link-reset header-link">How to correct compare two double in C++?</a></h3>
+                        <div class="question-description">
+                            <p>
+                                Lorem ipsum odor amet, consectetuer adipiscing elit. Duis urna eros suscipit, natoque
+                                dis viverra aliquet. Tempus nisl parturient penatibus purus magna aliquam? Viverra mi
+                                per cubilia vel at duis ad vel dis. Lectus sapien rutrum nascetur semper litora rutrum.
+                                Ligula phasellus sit curabitur faucibus et vitae.
+                            </p>
+                        </div>
+                        <div class="flex question-controls-bottom">
+                            <div><a href="#" class="link-reset question-link">answer&nbsp;(3)</a></div>
+                            <div class="flex default-gap">
+                                <div>
+                                    tags:
+                                </div>
+                                <div class="tags-lst-block">
+                                    <ol class="lst-reset flex tags-lst">
+                                        <li><a href="#" class="link-reset question-link">C++</a></li>
+                                        <li><a href="#" class="link-reset question-link">multithreading</a></li>
+                                        <li><a href="#" class="link-reset question-link">threads</a></li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                {% endfor %}
 
+            </div>
+        </section>
+        <section id="aside-col" class="flex">
+            <aside class="flex aside-searcher">
+                <div class="flex column">
+                    <h3 class="h-reset h3-my">Популярные&nbsp;теги</h3>
+                    <ol class="lst-reset flex wrap-lst">
+                        <li class="wrap-items"><a href="#" class="link-reset question-link">Python</a></li>
+                        <li class="wrap-items"><a href="#" class="link-reset question-link">C++</a></li>
+                        <li class="wrap-items"><a href="#" class="link-reset question-link">Postgres</a></li>
+                        <li class="wrap-items"><a href="#" class="link-reset question-link">Django</a></li>
+                        <li class="wrap-items"><a href="#" class="link-reset question-link">Firefox</a></li>
+                        <li class="wrap-items"><a href="#" class="link-reset question-link">ML</a></li>
+                    </ol>
+                </div>
+                <div class="flex column">
+                    <h3 class="h-reset h3-my">Лучшие&nbsp;пользователи</h3>
+                    <ol class="lst-reset">
+                        <li><a href="#" class="link-reset question-link">Mr. Freeman</a></li>
+                        <li><a href="#" class="link-reset question-link">Vladimir Pupkin</a></li>
+                        <li><a href="#" class="link-reset question-link">Postgres</a></li>
+                        <li><a href="#" class="link-reset question-link">Django</a></li>
+                        <li><a href="#" class="link-reset question-link">Firefox</a></li>
+                        <li><a href="#" class="link-reset question-link">ML</a></li>
+                    </ol>
+                </div>
+            </aside>
+        </section>
     </main>
 {% endblock %}
