@@ -50,6 +50,7 @@
 
 #main-col {
     flex-grow: 1;
+    margin-bottom: 90px;
 }
 
 #aside-col {
@@ -78,6 +79,7 @@
 
 .questions-block {
     gap: 20px;
+    margin-bottom: 50px;
 }
 
 .avatar-col {
@@ -116,4 +118,25 @@
 
 .question-link:visited {
 
+}
+
+/* pagination */
+
+.pagination {
+    justify-content: center;
+}
+
+.pagination-btn {
+    padding: var(--primary-padding);
+    border: 1px solid #f2f3f5;
+    border-radius: var(--primary-border-radius);
+}
+
+.pagination-btn:not([disabled]):hover {
+    cursor: pointer;
+    box-shadow: 1px 1px 5px #BAD7F5;
+}
+
+.current-page-btn {
+    background-color: #BAD7F5;
 }
