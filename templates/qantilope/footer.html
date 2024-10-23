@@ -2,14 +2,17 @@
 <footer class="footer-block">
     <div class="flex footer-content default-gap">
         <section class="flex column logo-sec-footer">
-            <img alt="logo" src="{% get_media_prefix %}main/logo.svg" class="img-logo">
+
+            <a href="{% url 'home:index' %}" class="link-reset">
+                <img alt="logo" src="{% get_media_prefix %}main/logo.svg" class="img-logo">
+            </a>
         </section>
 
         <section class="flex nav-sec-footer">
             <div class="flex column">
                 <h4 class="h-reset  footer-h"><a href="#" class="link-reset footer-link">QAlboran</a></h4>
                 <ol class="flex column lst-reset footer-lst">
-                    <li><a href="#" class="link-reset footer-link">Домашняя страница</a></li>
+                    <li><a href="{% url 'home:index' %}" class="link-reset footer-link">Домашняя страница</a></li>
                     <li><a href="#" class="link-reset footer-link">Справка</a></li>
                     <li><a href="#" class="link-reset footer-link">Правила сервиса</a></li>
                 </ol>
@@ -18,7 +21,7 @@
             <div class="flex column">
                 <h4 class="h-reset  footer-h"><a href="#" class="link-reset footer-link">Вопросы</a></h4>
                 <ol class="flex column lst-reset footer-lst">
-                    <li><a href="#" class="link-reset footer-link">Новые вопросы</a></li>
+                    <li><a href="{% url 'home:index' %}" class="link-reset footer-link">Новые вопросы</a></li>
                     <li><a href="#" class="link-reset footer-link">Топ вопросы</a></li>
                     <li><a href="#" class="link-reset footer-link">Лучшие категории</a></li>
                 </ol>

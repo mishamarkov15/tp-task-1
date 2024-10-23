@@ -87,7 +87,8 @@
     border: 1px solid #f2f2f2;
     width: var(--80-percents);
     padding-left: 35px;
-    background: #ffffff url("../assets/left-arrow.svg") 5px center no-repeat scroll;
+    background: #ffffff url("../assets/icons-search.svg") 5px center no-repeat scroll;
+    background-size: 18px 18px;
 }
 
 .profile-block {
