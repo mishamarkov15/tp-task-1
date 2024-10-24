@@ -37,6 +37,13 @@ class LoginPageView(TemplateView):
     template_name = 'qalboran/login.html'
 
 
+class LogoutPageView(TemplateView):
+    """
+    Страница выхода пользователя, доступна по пути "/logout/"
+    """
+    template_name = 'qalboran/logout.html'
+
+
 class SettingsPageView(TemplateView):
     """
     Страница редактирования профиля пользователя, доступна по пути "/settings/"

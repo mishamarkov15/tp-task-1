@@ -12,6 +12,7 @@ urlpatterns = [
     path("ask/", AskPageView.as_view(), name="ask"),
     path("register/", RegisterPageView.as_view(), name="register"),
     path("login/", LoginPageView.as_view(), name="login"),
+    path("logout/", LogoutPageView.as_view(), name="logout"),
     path("settings/", SettingsPageView.as_view(), name="settings"),
 ]
 
