@@ -26,6 +26,11 @@
     width: 15%;
 }
 
+.login-label {
+    min-width: fit-content;
+    width: 15%;
+}
+
 .ask-field {
     width: 100%;
     padding: var(--primary-padding);
@@ -66,4 +71,8 @@
     margin-left: 32px;
     padding: 0;
     margin-bottom: 12px;
+}
+
+.error-field {
+    color: orangered;
 }
