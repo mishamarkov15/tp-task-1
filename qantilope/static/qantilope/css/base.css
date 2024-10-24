@@ -43,7 +43,7 @@
 .header {
     width: 100%;
     border-bottom: 1px solid var(--header-background);
-    box-shadow: rgba(0,0,0,0.2) 0 1px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 1px;
 }
 
 .header-wrapper {
@@ -54,6 +54,21 @@
     padding-top: 16px;
     padding-bottom: 16px;
     gap: 22px;
+}
+
+.not-authenticated-link {
+    display: inline-block;
+    padding: 4px 10px;
+    border: 1px solid #BAD7F5;
+    border-radius: var(--primary-border-radius);
+    --webkit-transition: 128ms all ease-in-out;
+    transition: 128ms all ease-in-out;
+}
+
+.not-authenticated-link:hover {
+    cursor: pointer;
+    background-color: #BAD7F5;
+    box-shadow: 2px 1px 10px #96E7FA;
 }
 
 .main-logo {
@@ -71,7 +86,7 @@
     border-radius: var(--primary-border-radius);
     background-color: var(--primary-button-background);
     box-shadow: var(--primary-button-background-hover) 1px 1px;
-    width: calc( (100% - var(--80-percents)) * 0.9);
+    width: calc((100% - var(--80-percents)) * 0.9);
     --webkit-transition: 128ms all ease-in-out;
     transition: 128ms all ease-in-out;
 }
