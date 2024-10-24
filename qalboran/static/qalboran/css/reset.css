@@ -50,3 +50,27 @@ p, h1, h2, h3, h4, h5, h6 {
 #root, #__next {
   isolation: isolate;
 }
+
+/* resets */
+
+.lst-reset {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.h-reset {
+    margin: 0;
+    padding: 0;
+}
+
+.btn-reset {
+    padding: 0;
+    border: none;
+    background: none;
+}
+
+.link-reset {
+    text-decoration: none;
+    color: unset;
+}
