@@ -7,6 +7,7 @@
 {% load static %}
 
 {% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'qalboran/css/aside-col.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'qalboran/css/index.css' %}">
 {% endblock %}
 
@@ -26,8 +27,12 @@
                             <input type="number" min="0" max="999999" value="999999" class="number-input">
                         </div>
                         <div class="flex content-col col-main column">
-                            <h3 class="h-reset h3-my"><a class="link-reset header-link">How to correct compare two
-                                double in C++?</a></h3>
+                            <h3 class="h-reset h3-my">
+                                <a href="{% url 'home:question' %}"
+                                   class="link-reset header-link">
+                                    How to correct compare two double in C++?
+                                </a>
+                            </h3>
                             <div class="question-description">
                                 <p>
                                     Lorem ipsum odor amet, consectetuer adipiscing elit. Duis urna eros suscipit,
@@ -68,31 +73,6 @@
                 <button class="btn-reset pagination-btn">53</button>
             </div>
         </section>
-        <section id="aside-col" class="flex">
-            <aside class="flex aside-searcher">
-                <div class="flex column">
-                    <h3 class="h-reset h3-my">Популярные&nbsp;теги</h3>
-                    <ol class="lst-reset flex wrap-lst">
-                        <li class="wrap-items"><a href="#" class="link-reset question-link">Python</a></li>
-                        <li class="wrap-items"><a href="#" class="link-reset question-link">C++</a></li>
-                        <li class="wrap-items"><a href="#" class="link-reset question-link">Postgres</a></li>
-                        <li class="wrap-items"><a href="#" class="link-reset question-link">Django</a></li>
-                        <li class="wrap-items"><a href="#" class="link-reset question-link">Firefox</a></li>
-                        <li class="wrap-items"><a href="#" class="link-reset question-link">ML</a></li>
-                    </ol>
-                </div>
-                <div class="flex column">
-                    <h3 class="h-reset h3-my">Лучшие&nbsp;пользователи</h3>
-                    <ol class="lst-reset">
-                        <li><a href="#" class="link-reset question-link">Mr. Freeman</a></li>
-                        <li><a href="#" class="link-reset question-link">Vladimir Pupkin</a></li>
-                        <li><a href="#" class="link-reset question-link">Postgres</a></li>
-                        <li><a href="#" class="link-reset question-link">Django</a></li>
-                        <li><a href="#" class="link-reset question-link">Firefox</a></li>
-                        <li><a href="#" class="link-reset question-link">ML</a></li>
-                    </ol>
-                </div>
-            </aside>
-        </section>
+        {% include 'qalboran/aside-col.html' %}
     </main>
 {% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'qalboran/base.html' %}
+
+{% block meta %}{% endblock %}
+
+{% block title %}{{ question.title }}{% endblock %}
+
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'qalboran/css/aside-col.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'qalboran/css/question.css' %}">
+{% endblock %}
+
+{% block body %}
+    <main class="flex main-block main-margin">
+        <section id="main-col" class="flex column">
+            hello!
+        </section>
+        {% include 'qalboran/aside-col.html' %}
+    </main>
+{% endblock %}

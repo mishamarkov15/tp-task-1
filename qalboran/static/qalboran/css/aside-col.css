@@ -1,0 +1,15 @@
+#aside-col {
+    flex-grow: 0;
+    max-width: calc( (100% - var(--80-percents)) * 0.9);
+}
+
+.aside-searcher {
+    flex-direction: column;
+    gap: 30px;
+}
+
+.wrap-lst {
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: flex-start;
+}

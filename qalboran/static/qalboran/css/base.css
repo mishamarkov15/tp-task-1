@@ -12,6 +12,30 @@
     --margin-center: 0 auto;
 }
 
+.main-block {
+    max-width: var(--main-width);
+    margin: var(--margin-center);
+    gap: 60px;
+    padding-top: 60px;
+}
+
+#main-col {
+    flex-grow: 1;
+    margin-bottom: 90px;
+}
+
+.default-gap {
+    gap: 10px;
+}
+
+.question-link {
+    text-decoration: underline;
+}
+
+.question-link:visited {
+
+}
+
 .flex {
     display: flex;
 }
