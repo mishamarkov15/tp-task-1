@@ -22,7 +22,8 @@
                 <h4 class="h-reset  footer-h"><a href="#" class="link-reset footer-link">Вопросы</a></h4>
                 <ol class="flex column lst-reset footer-lst">
                     <li><a href="{% url 'home:index' %}" class="link-reset footer-link">Новые вопросы</a></li>
-                    <li><a href="#" class="link-reset footer-link">Топ вопросы</a></li>
+                    <li><a href="{% url 'home:index' %}" class="link-reset footer-link">Топ вопросы</a></li>
+                    <li><a href="{% url 'home:ask' %}" class="link-reset footer-link">Задать вопрос</a></li>
                     <li><a href="#" class="link-reset footer-link">Лучшие категории</a></li>
                 </ol>
             </div>
