@@ -13,11 +13,21 @@
     --article-padding: 12px;
 }
 
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
 .main-block {
-    max-width: var(--main-width);
     margin: var(--margin-center);
     gap: 60px;
     padding-top: 60px;
+    flex: 1 0 auto;
+    width: var(--main-width);
 }
 
 #main-col {
@@ -95,14 +105,19 @@
     max-height: 64px;
 }
 
+.main-search-form {
+    width: 100%;
+}
+
 .main-btn-search {
     padding: var(--primary-padding);
     border-radius: var(--primary-border-radius);
     background-color: var(--primary-button-background);
     box-shadow: var(--primary-button-background-hover) 1px 1px;
-    width: calc((100% - var(--80-percents)) * 0.9);
     --webkit-transition: 128ms all ease-in-out;
     transition: 128ms all ease-in-out;
+    width: fit-content;
+    height: 100%;
 }
 
 .main-btn-search:hover {

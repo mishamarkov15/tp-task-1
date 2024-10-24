@@ -14,3 +14,10 @@ class QuestionPageView(TemplateView):
     Страница отображения вопроса, доступна по пути "/question/<int:pk>/"
     """
     template_name = 'qalboran/question.html'
+
+
+class AskPageView(TemplateView):
+    """
+    Страница создания нового вопроса, доступна по пути "/ask/"
+    """
+    template_name = 'qalboran/ask.html'

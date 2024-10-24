@@ -3,6 +3,7 @@
     padding-bottom: 30px;
     background-color: #1D1D1D;
     color: #ffffff;
+    flex-shrink: 0;
 }
 
 .footer-content {

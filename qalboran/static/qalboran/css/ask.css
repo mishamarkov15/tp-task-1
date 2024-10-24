@@ -1,0 +1,30 @@
+.main-header {
+    text-transform: capitalize;
+    margin-bottom: 30px;
+}
+
+/* form */
+.ask-form {
+    width: 100%;
+    gap: 16px;
+}
+
+.ask-label {
+    font-weight: 500;
+    font-size: 17px;
+    width: 15%;
+}
+
+.ask-field {
+    width: 100%;
+    padding: var(--primary-padding);
+    border-radius: var(--primary-border-radius);
+    border: 1px solid #f2f3f5;
+}
+
+.ask-textarea {
+    resize: none;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    min-height: 200px;
+}

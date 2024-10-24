@@ -7,9 +7,9 @@
             </a>
         </div>
         <div class="col-main">
-            <form method="get" action="{% url 'home:index' %}">
+            <form class="flex main-search-form default-gap" method="get" action="{% url 'home:index' %}">
                 <input type="text" placeholder="Найдётся всё" name="question-to-search" class="main-input-field">
-                <button type="submit" class="btn-reset main-btn-search">спросить</button>
+                <a class="link-reset main-btn-search" href="{% url 'home:ask' %}">спросить</a>
             </form>
         </div>
         <div class="col-slave flex profile-block">
