@@ -9,6 +9,10 @@
     gap: 16px;
 }
 
+.ask-field-wrapper {
+    padding-top: var(--primary-padding);
+}
+
 .ask-label {
     font-weight: 500;
     font-size: 17px;
@@ -27,4 +31,21 @@
     overflow-x: scroll;
     overflow-y: scroll;
     min-height: 200px;
+}
+
+.ask-btn {
+    padding: var(--primary-padding);
+    border-radius: var(--primary-border-radius);
+    border: 1px solid #00FF86;
+    background-color: #38FF5D;
+    width: fit-content;
+    margin-left: auto;
+    --webkit-transition: 128ms all ease-in-out;
+    transition: 128ms all ease-in-out;
+}
+
+.ask-btn:hover {
+    cursor: pointer;
+    transform: scale(1.02);
+    box-shadow: 2px 1px 10px #38FF5D;
 }
