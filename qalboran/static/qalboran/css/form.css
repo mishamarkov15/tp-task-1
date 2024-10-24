@@ -76,3 +76,8 @@
 .error-field {
     color: orangered;
 }
+
+.warning-msg {
+    font-size: 18px;
+
+}
