@@ -17,8 +17,8 @@
     <main class="flex main-block">
         <section id="main-col" class="flex column">
             <div class="flex h-wrapper">
-                <h1 class="h-reset h1-my"><a href="{% url 'home:index' %}" class="link-reset header-link">Новые вопросы</a></h1>
-                <h2 class="h-reset h2-my"><a href="{% url 'home:hot' %}" class="link-reset header-link">Топ вопросы</a></h2>
+                <h1 class="h-reset h1-my"><a href="{% url 'home:hot' %}" class="link-reset header-link">Топ вопросы</a></h1>
+                <h2 class="h-reset h2-my"><a href="{% url 'home:index' %}" class="link-reset header-link">Новые вопросы</a></h2>
             </div>
             <div class="flex questions-block column">
                 {% for i in 'ABCD' %}
@@ -32,7 +32,7 @@
                             <h3 class="h-reset h3-my">
                                 <a href="{% url 'home:question' %}"
                                    class="link-reset header-link">
-                                    How to correct compare two double in C++?
+                                    Hot question about AI
                                 </a>
                             </h3>
                             <div class="question-description">

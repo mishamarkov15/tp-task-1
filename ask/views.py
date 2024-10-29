@@ -9,6 +9,13 @@ class IndexPageView(TemplateView):
     template_name = 'ask/index.html'
 
 
+class HotQuestionsPageView(TemplateView):
+    """
+    Страница с горячими новостями, доступная по пути "/hot/"
+    """
+    template_name = 'ask/hot.html'
+
+
 class QuestionPageView(TemplateView):
     """
     Страница отображения вопроса, доступна по пути "/question/<int:pk>/"

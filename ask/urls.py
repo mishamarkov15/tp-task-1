@@ -8,6 +8,7 @@ app_name = "home"
 
 urlpatterns = [
     path("", IndexPageView.as_view(), name="index"),
+    path("hot/", HotQuestionsPageView.as_view(), name="hot"),
     path("question/123/", QuestionPageView.as_view(), name="question"),
     path("ask/", AskPageView.as_view(), name="ask"),
     path("register/", RegisterPageView.as_view(), name="register"),
