@@ -15,6 +15,7 @@ urlpatterns = [
     path("login/", LoginPageView.as_view(), name="login"),
     path("logout/", LogoutPageView.as_view(), name="logout"),
     path("settings/", SettingsPageView.as_view(), name="settings"),
+    path("tag/blablabla/", TagPageView.as_view(), name="tag"),
 ]
 
 if settings.DEBUG:

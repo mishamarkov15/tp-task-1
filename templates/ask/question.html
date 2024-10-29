@@ -24,7 +24,7 @@
                 </div>
                 <div class="flex content-col col-main column">
                     <h1 class="h-reset sec-header">
-                            How to correct compare two double in C++?
+                        How to correct compare two double in C++?
                     </h1>
                     <div class="question-description">
                         <p>
@@ -43,9 +43,10 @@
                         </div>
                         <div class="tags-lst-block">
                             <ol class="lst-reset flex tags-lst">
-                                <li><a href="#" class="link-reset question-link">C++</a></li>
-                                <li><a href="#" class="link-reset question-link">multithreading</a></li>
-                                <li><a href="#" class="link-reset question-link">threads</a></li>
+                                <li><a href="{% url 'home:tag' %}" class="link-reset question-link">blablabla</a></li>
+                                <li><a href="{% url 'home:tag' %}" class="link-reset question-link">multithreading</a>
+                                </li>
+                                <li><a href="{% url 'home:tag' %}" class="link-reset question-link">threads</a></li>
                             </ol>
                         </div>
 
@@ -64,17 +65,17 @@
                         <div class="flex column">
                             <p class="answer-description">
                                 Lorem ipsum odor amet, consectetuer adipiscing elit. Duis urna eros suscipit,
-                            natoque
-                            dis viverra aliquet. Tempus nisl parturient penatibus purus magna aliquam? Viverra
-                            mis
+                                natoque
+                                dis viverra aliquet. Tempus nisl parturient penatibus purus magna aliquam? Viverra
+                                mis
                                 Lorem ipsum odor amet, consectetuer adipiscing elit. Duis urna eros suscipit,
-                            natoque
-                            dis viverra aliquet. Tempus nisl parturient penatibus purus magna aliquam? Viverra
-                            mis
+                                natoque
+                                dis viverra aliquet. Tempus nisl parturient penatibus purus magna aliquam? Viverra
+                                mis
                                 Lorem ipsum odor amet, consectetuer adipiscing elit. Duis urna eros suscipit,
-                            natoque
-                            dis viverra aliquet. Tempus nisl parturient penatibus purus magna aliquam? Viverra
-                            mis
+                                natoque
+                                dis viverra aliquet. Tempus nisl parturient penatibus purus magna aliquam? Viverra
+                                mis
                             </p>
                             <div>
                                 <input type="checkbox" id="correct_{{ i }}">
@@ -83,19 +84,20 @@
                         </div>
                     </article>
                 {% endfor %}
-            <div class="flex pagination default-gap">
-                <button class="btn-reset pagination-btn current-page-btn">1</button>
-                <button class="btn-reset pagination-btn">2</button>
-                <button class="btn-reset pagination-btn">3</button>
-                <button class="btn-reset pagination-btn" disabled>...</button>
-                <button class="btn-reset pagination-btn">53</button>
-            </div>
+                <div class="flex pagination default-gap">
+                    <button class="btn-reset pagination-btn current-page-btn">1</button>
+                    <button class="btn-reset pagination-btn">2</button>
+                    <button class="btn-reset pagination-btn">3</button>
+                    <button class="btn-reset pagination-btn" disabled>...</button>
+                    <button class="btn-reset pagination-btn">53</button>
+                </div>
             </section>
 
             <section class="user-answer-section">
                 <form class="flex right-align-flex column" method="post" action="#">
                     <label>
-                        <textarea name="user-answer" placeholder="Поделитесь Вашим ответом здесь" class="full-wide-textarea"></textarea>
+                        <textarea name="user-answer" placeholder="Поделитесь Вашим ответом здесь"
+                                  class="full-wide-textarea"></textarea>
                     </label>
                     <button class="btn-reset answer-btn" type="submit">Ответить</button>
                 </form>

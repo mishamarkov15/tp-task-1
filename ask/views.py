@@ -30,6 +30,13 @@ class AskPageView(TemplateView):
     template_name = 'ask/ask.html'
 
 
+class TagPageView(TemplateView):
+    """
+    Страница отображения вопросов по тегам, доступна по пути "/tag/blablabla"
+    """
+    template_name = 'ask/tag.html'
+
+
 class RegisterPageView(TemplateView):
     """
     Страница регистрации нового пользователя, доступна по пути "/register/"
