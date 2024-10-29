@@ -2,7 +2,7 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from TechParkBMSTU_1sem import settings
-from qalboran.views import *
+from ask_markov.views import *
 
 app_name = "home"
 

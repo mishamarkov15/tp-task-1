@@ -9,18 +9,18 @@
     <title>{% block title %}{% endblock %}</title>
 
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'qalboran/css/reset.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'qalboran/css/base.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'qalboran/css/footer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'ask_markov/css/reset.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'ask_markov/css/base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'ask_markov/css/footer.css' %}">
 
     {% block styles %}{% endblock %}
 </head>
 <body>
-{% include 'qalboran/header.html' %}
+{% include 'ask_markov/header.html' %}
 
 {% block body %}{% endblock %}
 
-{% include 'qalboran/footer.html' %}
+{% include 'ask_markov/footer.html' %}
 
 {% block end-body-scripts %}{% endblock %}
 </body>

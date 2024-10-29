@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'qalboran.apps.QAlboranConfig',
+    'ask_markov.apps.AskMarkovConfig',
 ]
 
 MIDDLEWARE = [
