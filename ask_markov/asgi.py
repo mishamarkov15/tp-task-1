@@ -1,5 +1,5 @@
 """
-ASGI config for TechParkBMSTU_1sem project.
+ASGI config for ask_markov project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "TechParkBMSTU_1sem.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ask_markov.settings")
 
 application = get_asgi_application()

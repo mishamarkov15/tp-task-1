@@ -9,18 +9,18 @@
     <title>{% block title %}{% endblock %}</title>
 
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'ask_markov/css/reset.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'ask_markov/css/base.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'ask_markov/css/footer.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'ask/css/reset.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'ask/css/base.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'ask/css/footer.css' %}">
 
     {% block styles %}{% endblock %}
 </head>
 <body>
-{% include 'ask_markov/header.html' %}
+{% include 'ask/header.html' %}
 
 {% block body %}{% endblock %}
 
-{% include 'ask_markov/footer.html' %}
+{% include 'ask/footer.html' %}
 
 {% block end-body-scripts %}{% endblock %}
 </body>

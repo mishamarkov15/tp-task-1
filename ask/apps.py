@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class AskMarkovConfig(AppConfig):
+class AskConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "ask_markov"
+    name = "ask"

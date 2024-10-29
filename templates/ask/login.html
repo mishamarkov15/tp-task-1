@@ -1,4 +1,4 @@
-{% extends 'ask_markov/base.html' %}
+{% extends 'ask/base.html' %}
 
 {% block meta %}{% endblock %}
 
@@ -7,16 +7,16 @@
 {% load static %}
 
 {% block styles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'ask_markov/css/aside-col.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'ask_markov/css/form.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'ask/css/aside-col.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'ask/css/form.css' %}">
 {% endblock %}
 
 {% block body %}
     <main class="flex main-block">
         <section id="main-col" class="flex column">
             <h1 class="h-reset main-header">Авторизация</h1>
-            {% include 'ask_markov/forms/login-form.html' %}
+            {% include 'ask/forms/login-form.html' %}
         </section>
-        {% include 'ask_markov/aside-col.html' %}
+        {% include 'ask/aside-col.html' %}
     </main>
 {% endblock %}

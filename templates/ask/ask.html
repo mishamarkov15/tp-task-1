@@ -1,0 +1,23 @@
+{% extends 'ask/base.html' %}
+
+{% block meta %}{% endblock %}
+
+{% block title %}QAlboran | Главная{% endblock %}
+
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'ask/css/aside-col.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'ask/css/form.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'ask/css/ask.css' %}">
+{% endblock %}
+
+{% block body %}
+    <main class="flex main-block">
+        <section id="main-col" class="flex column">
+            <h1 class="h-reset main-header">Новый вопрос</h1>
+            {% include 'ask/forms/ask-form.html' %}
+        </section>
+        {% include 'ask/aside-col.html' %}
+    </main>
+{% endblock %}

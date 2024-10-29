@@ -1,4 +1,4 @@
-{% extends 'ask_markov/base.html' %}
+{% extends 'ask/base.html' %}
 
 {% block meta %}{% endblock %}
 
@@ -7,10 +7,10 @@
 {% load static %}
 
 {% block styles %}
-    <link rel="stylesheet" type="text/css" href="{% static 'ask_markov/css/aside-col.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'ask_markov/css/question-card.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'ask_markov/css/pagination.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'ask_markov/css/question.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'ask/css/aside-col.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'ask/css/question-card.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'ask/css/pagination.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'ask/css/question.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -19,7 +19,7 @@
             <article class="flex question-article default-gap">
                 <div class="flex avatar-col col-slave column default-gap">
                     <img alt="Аватар пользователя" class="profile-img"
-                         src="{% get_media_prefix %}ask_markov/index/default_avatar.png">
+                         src="{% get_media_prefix %}ask/index/default_avatar.png">
                     <input type="number" min="-999999" max="999999" value="5" class="number-input">
                 </div>
                 <div class="flex content-col col-main column">
@@ -58,7 +58,7 @@
                     <article class="answer flex default-gap">
                         <div class="flex avatar-col col-slave column default-gap">
                             <img alt="Аватар пользователя" class="profile-img"
-                                 src="{% get_media_prefix %}ask_markov/index/default_avatar.png">
+                                 src="{% get_media_prefix %}ask/index/default_avatar.png">
                             <input type="number" min="-999999" max="999999" value="5" class="number-input">
                         </div>
                         <div class="flex column">
@@ -102,6 +102,6 @@
             </section>
 
         </section>
-        {% include 'ask_markov/aside-col.html' %}
+        {% include 'ask/aside-col.html' %}
     </main>
 {% endblock %}
