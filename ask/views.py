@@ -49,6 +49,16 @@ class QuestionPageView(TemplateView):
         return self.paginate(comments, request, paginate_by=5, **kwargs)
 
     def paginate(self, object_list: QuerySet, request: HttpRequest, paginate_by: int = 10, **kwargs):
+        """
+        Обработка исключений не нужна, так как если пользователь укажет неверный номер страницы,
+        пагинатор не выкинет исключений, а вернет ближайшую корректную страницу.
+
+        :param object_list: список ответов на вопрос.
+        :param request:
+        :param paginate_by:
+        :param kwargs:
+        :return:
+        """
         p = Paginator(object_list, paginate_by)
         page_number = request.GET.get("page", 1)
         page_obj = p.get_page(page_number)
