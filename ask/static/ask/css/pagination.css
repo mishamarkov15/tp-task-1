@@ -16,3 +16,13 @@
 .current-page-btn {
     background-color: #BAD7F5;
 }
+
+.link-disabled {
+    padding-left: 3px;
+    padding-right: 3px;
+    color: #888888;
+}
+
+.link-disabled:hover {
+    cursor: default;
+}

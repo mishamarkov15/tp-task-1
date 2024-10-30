@@ -20,7 +20,7 @@
 
             <section class="answers-section flex default-gap column">
                 <h2 class="h-reset sec-header">Ответы</h2>
-                {% for i in 'abcd' %}
+                {% for comment in page_obj %}
                     <article class="answer flex default-gap">
                         <div class="flex avatar-col col-slave column default-gap">
                             <img alt="Аватар пользователя" class="profile-img"
@@ -29,32 +29,41 @@
                         </div>
                         <div class="flex column">
                             <p class="answer-description">
-                                Lorem ipsum odor amet, consectetuer adipiscing elit. Duis urna eros suscipit,
-                                natoque
-                                dis viverra aliquet. Tempus nisl parturient penatibus purus magna aliquam? Viverra
-                                mis
-                                Lorem ipsum odor amet, consectetuer adipiscing elit. Duis urna eros suscipit,
-                                natoque
-                                dis viverra aliquet. Tempus nisl parturient penatibus purus magna aliquam? Viverra
-                                mis
-                                Lorem ipsum odor amet, consectetuer adipiscing elit. Duis urna eros suscipit,
-                                natoque
-                                dis viverra aliquet. Tempus nisl parturient penatibus purus magna aliquam? Viverra
-                                mis
+                                {{ comment }}
                             </p>
                             <div>
-                                <input type="checkbox" id="correct_{{ i }}">
-                                <label for="correct_{{ i }}">правильно</label>
+                                <input type="checkbox" id="correct_{{ forloop.counter0 }}">
+                                <label for="correct_{{ forloop.counter0 }}">правильно</label>
                             </div>
                         </div>
                     </article>
                 {% endfor %}
                 <div class="flex pagination default-gap">
-                    <button class="btn-reset pagination-btn current-page-btn">1</button>
-                    <button class="btn-reset pagination-btn">2</button>
-                    <button class="btn-reset pagination-btn">3</button>
-                    <button class="btn-reset pagination-btn" disabled>...</button>
-                    <button class="btn-reset pagination-btn">53</button>
+                    {% if page_obj.has_previous %}
+                        <a href="{% url 'home:question' %}?page=1" class="link-reset pagination-btn">1</a>
+                        {% if 1 != page_obj.previous_page_number %}
+                            {% if page_obj.previous_page_number != 2 %}
+                                <a class="link-reset pagination-btn link-disabled" disabled>...</a>
+                            {% endif %}
+                            <a href="{% url 'home:question' %}?page={{ page_obj.previous_page_number }}"
+                               class="link-reset pagination-btn">{{ page_obj.previous_page_number }}</a>
+                        {% endif %}
+                    {% endif %}
+
+                    <a class="link-reset pagination-btn current-page-btn">{{ page_obj.number }}</a>
+
+
+                    {% if page_obj.has_next %}
+                        <a href="{% url 'home:question' %}?page={{ page_obj.next_page_number }}"
+                           class="link-reset pagination-btn">{{ page_obj.next_page_number }}</a>
+                        {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+                            {% if page_obj.next_page_number|add:1 != page_obj.paginator.num_pages %}
+                                <a class="link-reset pagination-btn link-disabled" disabled>...</a>
+                            {% endif %}
+                            <a href="{% url 'home:question' %}?page={{ page_obj.paginator.num_pages }}"
+                               class="link-reset pagination-btn">{{ page_obj.paginator.num_pages }}</a>
+                        {% endif %}
+                    {% endif %}
                 </div>
             </section>
 

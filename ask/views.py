@@ -1,19 +1,32 @@
+from django.core.paginator import Paginator
+from django.db.models import QuerySet
+from django.http import HttpRequest
 from django.shortcuts import render
 from django.views.generic import TemplateView
 
 
 class IndexPageView(TemplateView):
     """
-    Главная страница приложения, доступная по пути "/"
+    Главная страница приложения, доступная по пути "/".
+
+    TODO: в дальнейшем, когда мы подключим модели (models) к приложению, текущий класс будет унаследован от
+    TODO: django.views.generic.ListView, что позволит нам корректно использовать параметр paginate_by.
     """
     template_name = 'ask/index.html'
+    # paginate_by = 10
+    # model = models.Question
 
 
 class HotQuestionsPageView(TemplateView):
     """
     Страница с горячими новостями, доступная по пути "/hot/"
+
+    TODO: в дальнейшем, когда мы подключим модели (models) к приложению, текущий класс будет унаследован от
+    TODO: django.views.generic.ListView, что позволит нам корректно использовать параметр paginate_by.
     """
     template_name = 'ask/hot.html'
+    # paginate_by = 10
+    # model = models.Question
 
 
 class QuestionPageView(TemplateView):
@@ -21,6 +34,29 @@ class QuestionPageView(TemplateView):
     Страница отображения вопроса, доступна по пути "/question/<int:pk>/"
     """
     template_name = 'ask/question.html'
+
+    def get(self, request: HttpRequest, *args, **kwargs):
+        """
+        Пока временно передаем заглушку в качестве query_set
+        :param request:
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        comments = [
+            f"This is comment {i + 1}" for i in range(44)
+        ]
+        return self.paginate(comments, request, paginate_by=5, **kwargs)
+
+    def paginate(self, object_list: QuerySet, request: HttpRequest, paginate_by: int = 10, **kwargs):
+        p = Paginator(object_list, paginate_by)
+        page_number = request.GET.get("page", 1)
+        page_obj = p.get_page(page_number)
+
+        context = self.get_context_data(**kwargs)
+        context['page_obj'] = page_obj
+
+        return render(request, self.template_name, context)
 
 
 class AskPageView(TemplateView):
@@ -33,8 +69,13 @@ class AskPageView(TemplateView):
 class TagPageView(TemplateView):
     """
     Страница отображения вопросов по тегам, доступна по пути "/tag/blablabla"
+
+    TODO: в дальнейшем, когда мы подключим модели (models) к приложению, текущий класс будет унаследован от
+    TODO: django.views.generic.ListView, что позволит нам корректно использовать параметр paginate_by.
     """
     template_name = 'ask/tag.html'
+    # paginate_by = 10
+    # model = models.Question
 
 
 class RegisterPageView(TemplateView):
