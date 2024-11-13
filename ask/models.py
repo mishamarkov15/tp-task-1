@@ -30,6 +30,20 @@ class Tag(models.Model):
         return f"{self.name}"
 
 
+class QuestionManager(models.Manager):
+    def new_questions(self):
+        return self.order_by('-created_timestamp')
+
+    def popular(self):
+        return self.annotate(
+            popularity=Subquery(
+                QuestionLike.objects.filter(
+                    question_id=OuterRef('id')
+                ).count()
+            )
+        ).order_by('-popularity')
+
+
 class Question(models.Model):
     class Meta:
         db_table = "question"
@@ -43,6 +57,8 @@ class Question(models.Model):
     tags = models.ManyToManyField(Tag, related_name='questions', verbose_name='теги', blank=True)
     created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     updated_timestamp = models.DateTimeField(auto_now=True, verbose_name='Время обновления')
+
+    objects = QuestionManager()
 
     def __str__(self) -> str:
         return f"{self.title}"
@@ -80,20 +96,6 @@ class AnswerLike(models.Model):
         return f"{self.profile.user.username} [Ответ от: {self.answer.profile.user.username}]"
 
 
-class QuestionManager(models.Manager):
-    def new_questions(self):
-        return self.order_by('-created_timestamp')
-
-    def popular(self):
-        return self.annotate(
-            popularity=Subquery(
-                QuestionLike.objects.filter(
-                    question_id=OuterRef('id')
-                ).count()
-            )
-        ).order_by('-popularity')
-
-
 class QuestionLike(models.Model):
     class Meta:
         db_table = "question_like"
@@ -104,8 +106,6 @@ class QuestionLike(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='likes')
     created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Время лайка')
-
-    objects = QuestionManager()
 
     def __str__(self) -> str:
         return f"{self.profile.user.username} [{self.question.title[:50]}]"
