@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.db.models import Subquery, OuterRef
 
 
 class Profile(models.Model):
@@ -72,7 +73,7 @@ class AnswerLike(models.Model):
         unique_together = ('profile', 'answer',)
 
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='likes')
     created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Время лайка')
 
     def __str__(self) -> str:
@@ -87,8 +88,22 @@ class QuestionLike(models.Model):
         unique_together = ('profile', 'question',)
 
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='likes')
     created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Время лайка')
 
     def __str__(self) -> str:
         return f"{self.profile.user.username} [{self.question.title[:50]}]"
+
+
+class QuestionManager(models.Manager):
+    def new_questions(self):
+        return self.order_by('-created_timestamp')
+
+    def popular(self):
+        return self.annotate(
+            popularity=Subquery(
+                QuestionLike.objects.filter(
+                    question_id=OuterRef('id')
+                ).count()
+            )
+        ).order_by('popularity')
