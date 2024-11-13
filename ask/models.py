@@ -80,21 +80,6 @@ class AnswerLike(models.Model):
         return f"{self.profile.user.username} [Ответ от: {self.answer.profile.user.username}]"
 
 
-class QuestionLike(models.Model):
-    class Meta:
-        db_table = "question_like"
-        verbose_name = "Question Like"
-        verbose_name_plural = "Question Like's"
-        unique_together = ('profile', 'question',)
-
-    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='likes')
-    created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Время лайка')
-
-    def __str__(self) -> str:
-        return f"{self.profile.user.username} [{self.question.title[:50]}]"
-
-
 class QuestionManager(models.Manager):
     def new_questions(self):
         return self.order_by('-created_timestamp')
@@ -107,3 +92,20 @@ class QuestionManager(models.Manager):
                 ).count()
             )
         ).order_by('-popularity')
+
+
+class QuestionLike(models.Model):
+    class Meta:
+        db_table = "question_like"
+        verbose_name = "Question Like"
+        verbose_name_plural = "Question Like's"
+        unique_together = ('profile', 'question',)
+
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='likes')
+    created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Время лайка')
+
+    objects = QuestionManager()
+
+    def __str__(self) -> str:
+        return f"{self.profile.user.username} [{self.question.title[:50]}]"
