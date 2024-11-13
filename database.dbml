@@ -32,6 +32,8 @@ Table answer {
   updated_timestamp datetime [default: 'now()']
 }
 
+
+
 Table question_tag {
   question_id int
   tag_id int
@@ -41,12 +43,14 @@ Table question_like {
   id bigint [pk, increment]
   user_id int
   question_id int
+  created_timestamp datetime [default: 'now()']
 }
 
 Table answer_like {
   id bigint [pk, increment]
   user_id int
   answer_id int
+  created_timestamp datetime [default: 'now()']
 }
 
 Table "django.contrib.auth.models".User {
@@ -60,6 +64,8 @@ Table "django.contrib.auth.models".User {
 
 Ref: "profile"."id" < "question"."user_id"
 
+Ref: "profile"."id" < "answer"."user_id"
+
 Ref: "question"."id" < "answer"."question_id"
 
 Ref: "tags"."id" < "question_tag"."tag_id"
@@ -69,11 +75,10 @@ Ref: "question"."id" < "question_tag"."question_id"
 
 Ref: "public"."profile"."id" - "django.contrib.auth.models"."User"."id"
 
-
 Ref: "public"."profile"."id" < "public"."question_like"."user_id"
 
 Ref: "public"."profile"."id" < "public"."answer_like"."user_id"
 
 Ref: "public"."question"."id" < "public"."question_like"."question_id"
 
-Ref: "public"."question"."id" < "public"."answer_like"."answer_id"
+Ref: "public"."answer"."id" < "public"."answer_like"."answer_id"
