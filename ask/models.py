@@ -106,4 +106,4 @@ class QuestionManager(models.Manager):
                     question_id=OuterRef('id')
                 ).count()
             )
-        ).order_by('popularity')
+        ).order_by('-popularity')
