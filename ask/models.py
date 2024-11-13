@@ -3,6 +3,11 @@ from django.db import models
 from django.db.models import Subquery, OuterRef
 
 
+class DropManager(models.Manager):
+    def drop_table(self):
+        self.all().delete()
+
+
 class Profile(models.Model):
     class Meta:
         db_table = "profile"
@@ -11,6 +16,8 @@ class Profile(models.Model):
 
     avatar = models.ImageField(verbose_name='Картинка профиля', help_text='Размер до 10МБ')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    objects = DropManager()
 
     def __str__(self) -> str:
         return f"{self.user.username} ({self.user.first_name} {self.user.last_name})"
@@ -26,11 +33,13 @@ class Tag(models.Model):
     name = models.CharField(max_length=255, unique=True, blank=False, null=False, verbose_name='Наименование')
     created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления')
 
+    objects = DropManager()
+
     def __str__(self) -> str:
         return f"{self.name}"
 
 
-class QuestionManager(models.Manager):
+class QuestionManager(DropManager):
     def new_questions(self):
         return self.order_by('-created_timestamp')
 
@@ -77,6 +86,8 @@ class Answer(models.Model):
     created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     updated_timestamp = models.DateTimeField(auto_now=True, verbose_name='Время обновления')
 
+    objects = DropManager()
+
     def __str__(self) -> str:
         return f"{self.profile.user.username} в {self.updated_timestamp.strftime('%d.%m.%Y %H:%M')}"
 
@@ -92,6 +103,8 @@ class AnswerLike(models.Model):
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE, related_name='likes')
     created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Время лайка')
 
+    objects = DropManager()
+
     def __str__(self) -> str:
         return f"{self.profile.user.username} [Ответ от: {self.answer.profile.user.username}]"
 
@@ -106,6 +119,8 @@ class QuestionLike(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='likes')
     created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Время лайка')
+
+    objects = DropManager()
 
     def __str__(self) -> str:
         return f"{self.profile.user.username} [{self.question.title[:50]}]"
