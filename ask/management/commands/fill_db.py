@@ -138,17 +138,6 @@ class Command(BaseCommand):
         objs = _model_base.objects.values_list('id', flat=True)
         profiles = Profile.objects.values_list('id', flat=True)
 
-        # likes = [
-        #     _model_like(
-        #         answer_id=random.choice(objs),
-        #         profile_id=random.choice(profiles)
-        #     ) if _model_base == Answer else
-        #     _model_like(
-        #         question_id=random.choice(objs),
-        #         profile_id=random.choice(profiles)
-        #     )
-        #     for _ in range(ratio)
-        # ]
         likes = []
         existing_likes = set()  # тут хранятся пары существующих лайков
         for _ in range(ratio):
