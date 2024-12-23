@@ -1,10 +1,12 @@
 import random
+from typing import Union, Type
 
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.core.management import BaseCommand, CommandParser
+from django.db import models
 
-from ask.models import Profile, Question
+from ask.models import Profile, Question, Tag, Answer, AnswerLike, QuestionLike
 
 
 class Command(BaseCommand):
@@ -55,6 +57,24 @@ class Command(BaseCommand):
         Profile.objects.bulk_create(profiles)
         self.stdout.write(f"{ratio} Profile objects was successfully created!")
 
+    def generate_tags(self, ratio: int, *args, **options):
+        self.stdout.write(f"Generating {ratio} random tags...")
+
+        last_tag_id = 0
+        try:
+            last_tag_id = Tag.objects.order_by('-id').first().id
+        except Exception:
+            pass
+
+        tags = [
+            Tag(
+                name=f"тэг {last_tag_id + i}"
+            )
+            for i in range(ratio)
+        ]
+        Tag.objects.bulk_create(tags)
+        self.stdout.write(f"{ratio} random tags  was successfully created!")
+
     def generate_questions(self, ratio: int, *args, **options):
         self.stdout.write(f"Generating {ratio} random questions...")
 
@@ -65,17 +85,99 @@ class Command(BaseCommand):
             pass
 
         profiles = Profile.objects.values_list('id', flat=True)
+        tags = Tag.objects.values_list('id', flat=True)
 
         questions = [
             Question(
                 profile_id=random.choice(profiles),
-                title=f'Вопрос #{i}',
-                content=f'Задаю вопрос {i} на платформе. Не подскажите ответ?',
+                title=f'Вопрос #{last_question_id + i}',
+                content=f'Задаю вопрос {last_question_id + i} на платформе. Не подскажите ответ?',
             )
             for i in range(ratio)
         ]
-        Question.objects.bulk_create(questions)
-        self.stdout.write(f"{ratio} random questions  was successfully created!")
+        objs = Question.objects.bulk_create(questions)
+        for question in objs:
+            try:
+                question.tags.add(
+                    *list({Tag.objects.get(id=random.choice(tags)) for _ in range(random.randint(1, 10))}))
+                question.save()
+            except ValueError as ve:
+                continue
+        self.stdout.write(f"{ratio} random questions was successfully created!")
+
+    def generate_answers(self, ratio: int, *args, **options):
+        self.stdout.write(f"Generating {ratio} random answers...")
+
+        last_answer_id = 0
+        try:
+            last_answer_id = Answer.objects.order_by('-id').first().id
+        except Exception:
+            pass
+
+        questions = Question.objects.values_list('id', flat=True)
+        profiles = Profile.objects.values_list('id', flat=True)
+
+        answers = [
+            Answer(
+                content=f'Ответ {last_answer_id + i}. '
+                        f'Это замечательный и развернутый ответ {last_answer_id + i} на вопрос.',
+                question_id=random.choice(questions),
+                profile_id=random.choice(profiles)
+            )
+            for i in range(ratio)
+        ]
+        Answer.objects.bulk_create(answers)
+        self.stdout.write(f"{ratio} random answers  was successfully created!")
+
+    def generate_likes(self, ratio: int,
+                       _model_base: Union[Type[Answer], Type[Question]],
+                       _model_like: Union[Type[AnswerLike], Type[QuestionLike]],
+                       *args, **options):
+        self.stdout.write(f"Generating {ratio} random likes for model {_model_like}...")
+
+        objs = _model_base.objects.values_list('id', flat=True)
+        profiles = Profile.objects.values_list('id', flat=True)
+
+        print(f'ALERT: {_model_base == Answer}')
+
+        likes = [
+            _model_like(
+                answer_id=random.choice(objs),
+                profile_id=random.choice(profiles)
+            ) if _model_base == Answer else
+            _model_like(
+                question_id=random.choice(objs),
+                profile_id=random.choice(profiles)
+            )
+            for _ in range(ratio)
+        ]
+        likes = []
+        existing_likes = set()  # тут хранятся пары существующих лайков
+        for _ in range(ratio):
+            # Пока пары лайк - ответ/вопрос не будем во множестве уже проставленных лайков, ищем снова
+            obj_id = random.choice(objs)
+            profile_id = random.choice(profiles)
+            while (obj_id, profile_id) in existing_likes:
+                obj_id = random.choice(objs)
+                profile_id = random.choice(profiles)
+
+            if _model_base == Answer:
+                likes.append(
+                    _model_like(
+                        answer_id=obj_id,
+                        profile_id=profile_id,
+                    )
+                )
+            else:
+                likes.append(
+                    _model_like(
+                        question_id=obj_id,
+                        profile_id=profile_id
+                    )
+                )
+
+        _model_like.objects.bulk_create(likes)
+        self.stdout.write(f"{ratio} random likes {_model_like} was successfully created!")
 
     def handle(self, *args, **options):
         ratio = options['ratio']
@@ -83,4 +185,8 @@ class Command(BaseCommand):
             self.stderr.write("ratio не может быть отрицательным числом.")
             return
         self.generate_users(ratio, args, options)
+        self.generate_tags(ratio, args, options)
         self.generate_questions(ratio * 10, args, options)
+        self.generate_answers(ratio * 100, args, options)
+        self.generate_likes(ratio * 200, Answer, AnswerLike, args, options)
+        self.generate_likes(ratio * 200, Question, QuestionLike, args, options)
