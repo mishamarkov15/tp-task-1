@@ -2,7 +2,7 @@ from django.core.paginator import Paginator
 from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.shortcuts import render
-from django.views.generic import TemplateView, ListView
+from django.views.generic import TemplateView, ListView, DetailView
 
 from ask import models
 
@@ -45,11 +45,15 @@ class HotQuestionsPageView(ListView, AsideColumnView):
     }
 
 
-class QuestionPageView(TemplateView):
+class QuestionPageView(DetailView, AsideColumnView):
     """
     Страница отображения вопроса, доступна по пути "/question/<int:pk>/"
     """
     template_name = 'ask/question.html'
+    model = models.Question
+    extra_context = {
+        'top_tags': AsideColumnView().top_flags,
+    }
 
     def get(self, request: HttpRequest, *args, **kwargs):
         """
@@ -59,10 +63,9 @@ class QuestionPageView(TemplateView):
         :param kwargs:
         :return:
         """
-        comments = [
-            f"This is comment {i + 1}" for i in range(44)
-        ]
-        return self.paginate(comments, request, paginate_by=5, **kwargs)
+        self.object = self.get_object()
+        answers = models.Answer.objects.filter(question_id=self.object.pk)
+        return self.paginate(answers, request, paginate_by=5, **kwargs)
 
     def paginate(self, object_list: QuerySet, request: HttpRequest, paginate_by: int = 10, **kwargs):
         """

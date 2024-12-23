@@ -11,7 +11,7 @@
     </div>
     <div class="flex content-col col-main column">
         <h3 class="h-reset h3-my">
-            <a href="{% url 'home:question' %}"
+            <a href="{% url 'home:question' pk=obj.pk %}"
                class="link-reset header-link">
                 {{ obj.title }}
             </a>
@@ -22,7 +22,7 @@
             </p>
         </div>
         <div class="flex question-controls-bottom">
-            <div><a href="{% url 'home:question' %}" class="link-reset question-link">answer&nbsp;({{ obj.answers.count }})</a></div>
+            <div><a href="{% url 'home:question' pk=obj.pk %}" class="link-reset question-link">answer&nbsp;({{ obj.answers.count }})</a></div>
             <div class="flex default-gap">
                 <div>
                     tags:
