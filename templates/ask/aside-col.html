@@ -3,12 +3,9 @@
         <div class="flex column">
             <h3 class="h-reset h3-my">Популярные&nbsp;теги</h3>
             <ol class="lst-reset flex wrap-lst">
-                <li class="wrap-items"><a href="{% url 'home:tag' slug='slug_4444' %}" class="link-reset question-link">Python</a></li>
-                <li class="wrap-items"><a href="{% url 'home:tag' slug='slug_4444' %}" class="link-reset question-link">C++</a></li>
-                <li class="wrap-items"><a href="{% url 'home:tag' slug='slug_4444' %}" class="link-reset question-link">Postgres</a></li>
-                <li class="wrap-items"><a href="{% url 'home:tag' slug='slug_4444' %}" class="link-reset question-link">Django</a></li>
-                <li class="wrap-items"><a href="{% url 'home:tag' slug='slug_4444' %}" class="link-reset question-link">Firefox</a></li>
-                <li class="wrap-items"><a href="{% url 'home:tag' slug='slug_4444' %}" class="link-reset question-link">ML</a></li>
+                {% for tag in top %}
+                <li class="wrap-items"><a href="{% url 'home:tag' slug=tag.slug %}" class="link-reset question-link">{{ tag.name }}</a></li>
+                {% endfor %}
             </ol>
         </div>
         <div class="flex column">

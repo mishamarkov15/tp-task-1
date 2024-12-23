@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models import Subquery, OuterRef
+from django.db.models import Subquery, OuterRef, Count
 
 
 class DropManager(models.Manager):
@@ -23,6 +23,15 @@ class Profile(models.Model):
         return f"{self.user.username} ({self.user.first_name} {self.user.last_name})"
 
 
+class TagManager(DropManager):
+    def hot(self):
+        """
+        Список популярных тегов. Популярными считаются теги с наибольшим количеством вопросов.
+        :return:
+        """
+        return self.annotate(count=Count('questions')).order_by('count')
+
+
 class Tag(models.Model):
     class Meta:
         db_table = "tag"
@@ -33,7 +42,7 @@ class Tag(models.Model):
     name = models.CharField(max_length=255, unique=True, blank=False, null=False, verbose_name='Наименование')
     created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления')
 
-    objects = DropManager()
+    objects = TagManager()
 
     def __str__(self) -> str:
         return f"{self.name}"
