@@ -65,27 +65,9 @@ class QuestionPageView(DetailView, AsideColumnView):
         """
         self.object = self.get_object()
         answers = models.Answer.objects.filter(question_id=self.object.pk)
-        return self.paginate(answers, request, paginate_by=5, **kwargs)
-
-    def paginate(self, object_list: QuerySet, request: HttpRequest, paginate_by: int = 10, **kwargs):
-        """
-        Обработка исключений не нужна, так как если пользователь укажет неверный номер страницы,
-        пагинатор не выкинет исключений, а вернет ближайшую корректную страницу.
-
-        :param object_list: список ответов на вопрос.
-        :param request:
-        :param paginate_by:
-        :param kwargs:
-        :return:
-        """
-        p = Paginator(object_list, paginate_by)
-        page_number = request.GET.get("page", 1)
-        page_obj = p.get_page(page_number)
-
-        context = self.get_context_data(**kwargs)
-        context['page_obj'] = page_obj
-
-        return render(request, self.template_name, context)
+        context = self.get_context_data(*args, **kwargs)
+        context.update(paginate(answers, request, paginate_by=10, **kwargs))
+        return self.render_to_response(context)
 
 
 class AskPageView(TemplateView):
@@ -95,16 +77,29 @@ class AskPageView(TemplateView):
     template_name = 'ask/ask.html'
 
 
-class TagPageView(TemplateView):
+class TagPageView(DetailView, AsideColumnView):
     """
     Страница отображения вопросов по тегам, доступна по пути "/tag/blablabla"
-
-    TODO: в дальнейшем, когда мы подключим модели (models) к приложению, текущий класс будет унаследован от
-    TODO: django.views.generic.ListView, что позволит нам корректно использовать параметр paginate_by.
     """
     template_name = 'ask/tag.html'
-    # paginate_by = 10
-    # model = models.Question
+    model = models.Tag
+    extra_context = {
+        'top_tags': AsideColumnView().top_flags
+    }
+
+    def get(self, request: HttpRequest, *args, **kwargs):
+        """
+
+        :param request:
+        :param args:
+        :param kwargs:
+        :return:
+        """
+        self.object = self.get_object()
+        questions = models.Question.objects.by_tag(self.object)
+        context = self.get_context_data(*args, **kwargs)
+        context.update(paginate(questions, request, paginate_by=10, **kwargs))
+        return self.render_to_response(context)
 
 
 class RegisterPageView(TemplateView):
@@ -133,3 +128,23 @@ class SettingsPageView(TemplateView):
     Страница редактирования профиля пользователя, доступна по пути "/settings/"
     """
     template_name = 'ask/settings.html'
+
+
+def paginate(object_list: QuerySet, request: HttpRequest, paginate_by: int = 10, **kwargs) -> dict:
+    """
+    Обработка исключений не нужна, так как если пользователь укажет неверный номер страницы,
+    пагинатор не выкинет исключений, а вернет ближайшую корректную страницу.
+
+    :param object_list: список ответов на вопрос.
+    :param request:
+    :param paginate_by:
+    :param kwargs:
+    :return:
+    """
+    p = Paginator(object_list, paginate_by)
+    page_number = request.GET.get("page", 1)
+    page_obj = p.get_page(page_number)
+
+    context = {'page_obj': page_obj}
+
+    return context

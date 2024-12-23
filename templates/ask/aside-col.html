@@ -4,7 +4,7 @@
             <h3 class="h-reset h3-my">Популярные&nbsp;теги</h3>
             <ol class="lst-reset flex wrap-lst">
                 {% for tag in top %}
-                <li class="wrap-items"><a href="{% url 'home:tag' slug=tag.slug %}" class="link-reset question-link">{{ tag.name }}</a></li>
+                <li class="wrap-items"><a href="{% url 'home:tag' pk=tag.pk %}" class="link-reset question-link">{{ tag.name }}</a></li>
                 {% endfor %}
             </ol>
         </div>

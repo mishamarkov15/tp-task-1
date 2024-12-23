@@ -61,6 +61,9 @@ class QuestionManager(DropManager):
             popularity=Count('likes')
         ).order_by('-popularity')
 
+    def by_tag(self, tag: Tag):
+        return self.filter(tags__in=[tag.pk])
+
 
 class Question(models.Model):
     class Meta:

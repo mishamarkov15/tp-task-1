@@ -30,7 +30,7 @@
                 <div class="tags-lst-block">
                     <ol class="lst-reset flex tags-lst">
                         {% for tag in obj.tags.all %}
-                            <li><a href="{% url 'home:tag' slug=tag.slug %}" class="link-reset question-link">{{ tag }}</a></li>
+                            <li><a href="{% url 'home:tag' pk=tag.pk %}" class="link-reset question-link">{{ tag }}</a></li>
                         {% endfor %}
                     </ol>
                 </div>
