@@ -38,6 +38,10 @@ class Tag(models.Model):
     def __str__(self) -> str:
         return f"{self.name}"
 
+    @property
+    def slug(self) -> str:
+        return f'tag_{self.pk}'
+
 
 class QuestionManager(DropManager):
     def new_questions(self):
@@ -81,7 +85,7 @@ class Answer(models.Model):
         ordering = ["-created_timestamp"]
 
     content = models.TextField(null=False, blank=False, verbose_name='Ответ')
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name='Вопрос')
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, verbose_name='Вопрос', related_name='answers')
     profile = models.ForeignKey(Profile, on_delete=models.SET_NULL, null=True, verbose_name='Пользователь')
     created_timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Время создания')
     updated_timestamp = models.DateTimeField(auto_now=True, verbose_name='Время обновления')

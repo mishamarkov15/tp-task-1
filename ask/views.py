@@ -2,10 +2,12 @@ from django.core.paginator import Paginator
 from django.db.models import QuerySet
 from django.http import HttpRequest
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
+
+from ask import models
 
 
-class IndexPageView(TemplateView):
+class IndexPageView(ListView):
     """
     Главная страница приложения, доступная по пути "/".
 
@@ -13,8 +15,8 @@ class IndexPageView(TemplateView):
     TODO: django.views.generic.ListView, что позволит нам корректно использовать параметр paginate_by.
     """
     template_name = 'ask/index.html'
-    # paginate_by = 10
-    # model = models.Question
+    paginate_by = 10
+    model = models.Question
 
 
 class HotQuestionsPageView(TemplateView):
