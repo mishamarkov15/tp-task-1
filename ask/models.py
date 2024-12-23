@@ -58,11 +58,7 @@ class QuestionManager(DropManager):
 
     def popular(self):
         return self.annotate(
-            popularity=Subquery(
-                QuestionLike.objects.filter(
-                    question_id=OuterRef('id')
-                ).count()
-            )
+            popularity=Count('likes')
         ).order_by('-popularity')
 
 

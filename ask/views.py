@@ -7,7 +7,13 @@ from django.views.generic import TemplateView, ListView
 from ask import models
 
 
-class IndexPageView(ListView):
+class AsideColumnView(object):
+    @property
+    def top_flags(self):
+        return models.Tag.objects.hot()[:5]
+
+
+class IndexPageView(ListView, AsideColumnView):
     """
     Главная страница приложения, доступная по пути "/".
 
@@ -17,14 +23,13 @@ class IndexPageView(ListView):
     template_name = 'ask/index.html'
     paginate_by = 10
     model = models.Question
+    queryset = models.Question.objects.new_questions()
+    extra_context = {
+        'top_tags': AsideColumnView().top_flags
+    }
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['top_tags'] = models.Tag.objects.hot()[:5]
-        return context
 
-
-class HotQuestionsPageView(TemplateView):
+class HotQuestionsPageView(ListView, AsideColumnView):
     """
     Страница с горячими новостями, доступная по пути "/hot/"
 
@@ -32,8 +37,12 @@ class HotQuestionsPageView(TemplateView):
     TODO: django.views.generic.ListView, что позволит нам корректно использовать параметр paginate_by.
     """
     template_name = 'ask/hot.html'
-    # paginate_by = 10
-    # model = models.Question
+    paginate_by = 10
+    model = models.Question
+    queryset = models.Question.objects.popular()
+    extra_context = {
+        'top_tags': AsideColumnView().top_flags
+    }
 
 
 class QuestionPageView(TemplateView):

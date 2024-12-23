@@ -21,20 +21,40 @@
                 <h2 class="h-reset h2-my"><a href="{% url 'home:index' %}" class="link-reset header-link">Новые вопросы</a></h2>
             </div>
             <div class="flex questions-block column">
-                {% for i in 'ABCD' %}
-                   {% include 'ask/ask-card.html' %}
+                {% for obj in page_obj %}
+                   {% include 'ask/ask-card.html' with obj=obj %}
                 {% endfor %}
 
             </div>
 
             <div class="flex pagination default-gap">
-                <button class="btn-reset pagination-btn current-page-btn">1</button>
-                <button class="btn-reset pagination-btn">2</button>
-                <button class="btn-reset pagination-btn">3</button>
-                <button class="btn-reset pagination-btn" disabled>...</button>
-                <button class="btn-reset pagination-btn">53</button>
-            </div>
+                    {% if page_obj.has_previous %}
+                        <a href="{% url 'home:hot' %}?page=1" class="link-reset pagination-btn">1</a>
+                        {% if 1 != page_obj.previous_page_number %}
+                            {% if page_obj.previous_page_number != 2 %}
+                                <a class="link-reset pagination-btn link-disabled" disabled>...</a>
+                            {% endif %}
+                            <a href="{% url 'home:hot' %}?page={{ page_obj.previous_page_number }}"
+                               class="link-reset pagination-btn">{{ page_obj.previous_page_number }}</a>
+                        {% endif %}
+                    {% endif %}
+
+                    <a class="link-reset pagination-btn current-page-btn">{{ page_obj.number }}</a>
+
+
+                    {% if page_obj.has_next %}
+                        <a href="{% url 'home:hot' %}?page={{ page_obj.next_page_number }}"
+                           class="link-reset pagination-btn">{{ page_obj.next_page_number }}</a>
+                        {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+                            {% if page_obj.next_page_number|add:1 != page_obj.paginator.num_pages %}
+                                <a class="link-reset pagination-btn link-disabled" disabled>...</a>
+                            {% endif %}
+                            <a href="{% url 'home:hot' %}?page={{ page_obj.paginator.num_pages }}"
+                               class="link-reset pagination-btn">{{ page_obj.paginator.num_pages }}</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
         </section>
-        {% include 'ask/aside-col.html' %}
+        {% include 'ask/aside-col.html' with top=top_tags %}
     </main>
 {% endblock %}
