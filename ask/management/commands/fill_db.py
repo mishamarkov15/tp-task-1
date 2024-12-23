@@ -42,17 +42,17 @@ class Command(BaseCommand):
                 first_name=f"Имя {last_user_id + i}",
                 last_name=f"Фамилия {last_user_id + i}",
                 email=f"user{last_user_id + i}_tp@mail.ru",
-                password=make_password('admin'),
+                password=make_password('admin', None, 'md5'),
             ) for i in range(ratio)
         ]
-        User.objects.bulk_create(users)
+        objs = User.objects.bulk_create(users)
         self.stdout.write(f"Created {ratio} django.Users...")
 
         profiles = [
             Profile(
-                user=User.objects.get(username=f"username_{last_user_id + i}"),
+                user=obj,
                 avatar=None,
-            ) for i in range(ratio)
+            ) for obj in objs
         ]
         Profile.objects.bulk_create(profiles)
         self.stdout.write(f"{ratio} Profile objects was successfully created!")
@@ -138,19 +138,17 @@ class Command(BaseCommand):
         objs = _model_base.objects.values_list('id', flat=True)
         profiles = Profile.objects.values_list('id', flat=True)
 
-        print(f'ALERT: {_model_base == Answer}')
-
-        likes = [
-            _model_like(
-                answer_id=random.choice(objs),
-                profile_id=random.choice(profiles)
-            ) if _model_base == Answer else
-            _model_like(
-                question_id=random.choice(objs),
-                profile_id=random.choice(profiles)
-            )
-            for _ in range(ratio)
-        ]
+        # likes = [
+        #     _model_like(
+        #         answer_id=random.choice(objs),
+        #         profile_id=random.choice(profiles)
+        #     ) if _model_base == Answer else
+        #     _model_like(
+        #         question_id=random.choice(objs),
+        #         profile_id=random.choice(profiles)
+        #     )
+        #     for _ in range(ratio)
+        # ]
         likes = []
         existing_likes = set()  # тут хранятся пары существующих лайков
         for _ in range(ratio):
@@ -160,6 +158,7 @@ class Command(BaseCommand):
             while (obj_id, profile_id) in existing_likes:
                 obj_id = random.choice(objs)
                 profile_id = random.choice(profiles)
+            existing_likes.add((obj_id, profile_id))
 
             if _model_base == Answer:
                 likes.append(
@@ -188,5 +187,5 @@ class Command(BaseCommand):
         self.generate_tags(ratio, args, options)
         self.generate_questions(ratio * 10, args, options)
         self.generate_answers(ratio * 100, args, options)
-        self.generate_likes(ratio * 200, Answer, AnswerLike, args, options)
-        self.generate_likes(ratio * 200, Question, QuestionLike, args, options)
+        self.generate_likes(ratio * 150, Answer, AnswerLike, args, options)
+        self.generate_likes(ratio * 50, Question, QuestionLike, args, options)
