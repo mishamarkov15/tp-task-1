@@ -1,52 +1,84 @@
-<form class="flex column user-form default-gap" method="post" action="#">
-    <div class="flex column error-field">
-        <p>
-            Извините, указанная почта уже занята. Попробуйте сбросить пароль или указать другую почту.
-        </p>
-    </div>
+<form class="flex column user-form default-gap" method="post">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+        <div class="flex column error-field">
+            {% for err in form.non_field_errors %}
+                <p>
+                    {{ err }}
+                </p>
+            {% endfor %}
+        </div>
+    {% endif %}
     <div class="flex column ask-field-wrapper">
-        <label class="user-label" for="ask-title">Логин</label>
-        <ol class="lst-reset help-lst help-text">
-            <li>Разрешено использовать: A-Z, a-z, 0-9 и _</li>
-            <li>Длина: от 8 до 32 символов</li>
-            <li>Будет виден только Вам</li>
-        </ol>
-        <input class="ask-field" id="ask-title" type="text" placeholder="Ваш логин" required>
+        {% if form.email.errors %}
+            <div class="flex column error-field">
+                {% for err in form.email.errors %}
+                    <p>{{ err }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <label class="user-label" for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+        {{ form.email }}
     </div>
 
     <div class="flex column ask-field-wrapper">
-        <label class="user-label" for="ask-description">Почта</label>
-        <input class="ask-field" id="ask-title" type="email" placeholder="example@domain.ru" required>
-    </div>
+        {% if form.username.errors %}
+            <div class="flex column error-field">
 
-    <div class="flex column ask-field-wrapper">
-        <label class="user-label" for="ask-tags">Никнейм</label>
+                {% for err in form.username.errors %}
+                    <p>{{ err }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <label class="user-label" for="{{ form.username.id_for_label }}">{{ form.username.label|title }}</label>
         <ol class="lst-reset help-lst help-text">
             <li>Разрешено использовать: A-Z, a-z, 0-9 и _</li>
             <li>Длина: от 8 до 32 символов</li>
             <li>Будет виден всем пользователям</li>
         </ol>
-        <input class="ask-field" id="ask-tags" type="text" placeholder="Разрешено использовать: A-Z, a-z, 0-9 и _">
+        {{ form.username }}
     </div>
 
     <div class="flex column ask-field-wrapper">
-        <label class="user-label" for="ask-tags">Пароль</label>
+        {% if form.password.errors %}
+            <div class="flex column error-field">
+                {% for err in form.password.errors %}
+                    <p>{{ err }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <label class="user-label" for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
         <ol class="lst-reset help-lst help-text">
             <li>Разрешено использовать: A-Z, a-z, 0-9 и спец. символы</li>
             <li>Длина: от 8 до 64 символов</li>
             <li>Хотя бы один специальный символ: &dollar;#!&amp;.&comma;&dash;_+="</li>
         </ol>
-        <input class="ask-field" id="ask-tags" type="password" placeholder="Придумайте пароль">
+        {{ form.password }}
     </div>
 
     <div class="flex column ask-field-wrapper">
-        <label class="user-label" for="ask-tags">Подтверждение пароля</label>
-        <input class="ask-field" id="ask-tags" type="password" placeholder="Введите пароль ещё раз">
+        {% if form.password_confirm.errors %}
+            <div class="flex column error-field">
+                {% for err in form.password_confirm.errors %}
+                    <p>{{ err }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <label class="user-label"
+               for="{{ form.password_confirm.id_for_label }}">{{ form.password_confirm.label }}</label>
+        {{ form.password_confirm }}
     </div>
 
     <div class="flex column ask-field-wrapper">
-        <label class="user-label" for="ask-tags">Загрузка аватара</label>
-        <input class="ask-field" id="ask-tags" type="file" accept="image/png, image/gif, image/jpeg">
+        {% if form.avatar.errors %}
+            <div class="flex column error-field">
+                {% for err in form.avatar.errors %}
+                    <p>{{ err }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <label class="user-label" for="{{ form.avatar.id_for_label }}">{{ form.avatar.label }}</label>
+        {{ form.avatar }}
     </div>
 
     <button type="submit" class="btn-reset ask-btn">Продолжить</button>

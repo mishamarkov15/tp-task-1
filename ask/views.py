@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.views.generic import TemplateView, ListView, DetailView, UpdateView
 
 from ask import models
-from ask.forms import LoginForm, SettingsForm
+from ask.forms import LoginForm, SettingsForm, RegisterForm
 
 
 class AsideColumnView(object):
@@ -107,11 +107,27 @@ class TagPageView(DetailView, AsideColumnView):
         return self.render_to_response(context)
 
 
-class RegisterPageView(TemplateView):
+class RegisterPageView(TemplateView, AsideColumnView):
     """
     Страница регистрации нового пользователя, доступна по пути "/register/"
     """
     template_name = 'ask/register.html'
+    extra_context = {
+        'top_tags': AsideColumnView().top_flags,
+        'form': RegisterForm()
+    }
+
+    def get(self, request: WSGIRequest, *args, **kwargs):
+        if request.user.is_authenticated:
+            return
+
+    def post(self, request: WSGIRequest, *args, **kwargs):
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            auth.login(request, user)
+            return redirect(reverse('home:settings', kwargs={"pk": user.pk}))
+        return render(request, self.template_name, {'form': form})
 
 
 class LoginPageView(TemplateView, AsideColumnView):
