@@ -18,6 +18,6 @@
             <h1 class="h-reset main-header">Новый вопрос</h1>
             {% include 'ask/forms/ask-form.html' %}
         </section>
-        {% include 'ask/aside-col.html' %}
+        {% include 'ask/aside-col.html' with top=top_tags %}
     </main>
 {% endblock %}

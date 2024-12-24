@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from ask.models import Profile
+from ask.models import Profile, Question
 
 
 class LoginForm(forms.Form):
@@ -130,3 +130,40 @@ class RegisterForm(forms.ModelForm):
         profile.save()
 
         return user
+
+
+class QuestionForm(forms.ModelForm):
+    template_name_div = 'forms/ask-form.html'
+
+    class Meta:
+        model = Question
+        fields = (
+            'title',
+            'content',
+            'tags'
+        )
+        labels = {
+            'title': 'Название',
+            'content': 'Вопрос',
+            'tags': 'Теги',
+        }
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'placeholder': 'Кратко опишите Ваш вопрос'
+            }),
+            'content': forms.Textarea(attrs={
+                'placeholder': 'Подробно распишите Вашу проблему'
+            })
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'ask-field'
+
+    def clean_tags(self):
+        tags = self.cleaned_data.get('tags', None)
+        if not tags or len(tags) == 0:
+            self.add_error('tags', 'Укажите хотя бы один тэг')
+            raise ValidationError('Неверно указаны теги')
+        return tags

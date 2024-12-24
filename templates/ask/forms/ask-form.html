@@ -1,18 +1,47 @@
-<form class="flex column ask-form default-gap" method="post" action="#">
-    <div class="flex ask-field-wrapper">
-        <label class="ask-label" for="ask-title">Название</label>
-        <input class="ask-field" id="ask-title" type="text" placeholder="Кратко опишите Ваш вопрос" required>
-    </div>
+<form class="flex column ask-form default-gap" method="post">
+    {% csrf_token %}
+    {% if form.non_field_errors %}
+        <div class="flex column error-field">
+            {% for err in form.non_field_errors %}
+                <p class="form-error">
+                    {{ err }}
+                </p>
+            {% endfor %}
+        </div>
+    {% endif %}
 
-    <div class="flex ask-field-wrapper">
-        <label class="ask-label" for="ask-description">Вопрос</label>
-        <textarea class="ask-field ask-textarea" id="ask-description" placeholder="Подробно распишите Вашу проблему" required></textarea>
-    </div>
+    {% for field in form %}
+        {% if field.errors %}
+            <div class="flex column error-field">
+                {% for err in field.errors %}
+                    <p class="form-error">
+                        {{ err }}
+                    </p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        <div class="flex ask-field-wrapper">
+            <label class="ask-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+        </div>
+    {% endfor %}
 
-    <div class="flex ask-field-wrapper">
-        <label class="ask-label" for="ask-tags">Теги</label>
-        <input class="ask-field" id="ask-tags" type="text" placeholder="Теги, разделенные запятой. Например: Python, Django">
-    </div>
+    {#    <div class="flex ask-field-wrapper">#}
+    {#        <label class="ask-label" for="{{ form.title.id_for_label }}">Название</label>#}
+    {#        <input class="ask-field" id="ask-title" type="text" placeholder="Кратко опишите Ваш вопрос" required>#}
+    {#    </div>#}
+    {##}
+    {#    <div class="flex ask-field-wrapper">#}
+    {#        <label class="ask-label" for="ask-description">Вопрос</label>#}
+    {#        <textarea class="ask-field ask-textarea" id="ask-description" placeholder="Подробно распишите Вашу проблему"#}
+    {#                  required></textarea>#}
+    {#    </div>#}
+    {##}
+    {#    <div class="flex ask-field-wrapper">#}
+    {#        <label class="ask-label" for="ask-tags">Теги</label>#}
+    {#        <input class="ask-field" id="ask-tags" type="text"#}
+    {#               placeholder="Теги, разделенные запятой. Например: Python, Django">#}
+    {#    </div>#}
 
     <button type="submit" class="btn-reset ask-btn">Опубликовать</button>
 

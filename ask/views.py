@@ -6,10 +6,10 @@ from django.core.paginator import Paginator
 from django.db.models import QuerySet
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic import TemplateView, ListView, DetailView, UpdateView
+from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView
 
 from ask import models
-from ask.forms import LoginForm, SettingsForm, RegisterForm
+from ask.forms import LoginForm, SettingsForm, RegisterForm, QuestionForm
 
 
 class AsideColumnView(object):
@@ -75,11 +75,23 @@ class QuestionPageView(DetailView, AsideColumnView):
         return self.render_to_response(context)
 
 
-class AskPageView(TemplateView):
+class AskPageView(LoginRequiredMixin, TemplateView, AsideColumnView):
     """
     Страница создания нового вопроса, доступна по пути "/ask/"
     """
     template_name = 'ask/ask.html'
+    login_url = 'home:login'
+    extra_context = {
+        'top_tags': AsideColumnView().top_flags,
+        'form': QuestionForm(),
+    }
+
+    def post(self, request: WSGIRequest, *args, **kwargs):
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            question = form.save()
+            return redirect(reverse('home:question', kwargs={"pk": question.pk}))
+        return render(request, self.template_name, {'form': form})
 
 
 class TagPageView(DetailView, AsideColumnView):
