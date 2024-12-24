@@ -20,7 +20,7 @@
                 </a>
                 <div class="flex column username-wrapper">
                     <div>
-                        <a href="{% url 'home:settings' %}" class="link-reset">Михаил Марков</a>
+                        <a href="{% url 'home:settings' %}" class="link-reset">{{ request.user.username }}</a>
                     </div>
                     <div class="flex profile-controller">
                         <a href="{% url 'home:settings' %}" class="link-reset profile-controller-link">настройки</a>
