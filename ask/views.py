@@ -1,7 +1,9 @@
+from django.contrib import auth
 from django.core.paginator import Paginator
 from django.db.models import QuerySet
 from django.http import HttpRequest
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.generic import TemplateView, ListView, DetailView
 
 from ask import models
@@ -120,8 +122,21 @@ class LoginPageView(TemplateView):
     }
 
     def post(self, request: HttpRequest, *args, **kwargs):
-        # form =
-        return super().post(request, *args, **kwargs)
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            login = form.cleaned_data.get('login')
+            password = form.cleaned_data.get('password')
+
+            user = auth.authenticate(request, username=login, password=password)
+            if not user:
+                user = auth.authenticate(request, email=login, password=password)
+
+            if user:
+                auth.login(request, user)
+                return redirect(reverse('home:index'))
+
+        form.add_error(None, 'Неверно указан логин или пароль')
+        return render(request, self.template_name, {'form': form})
 
 
 class LogoutPageView(TemplateView):

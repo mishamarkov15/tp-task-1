@@ -1,4 +1,5 @@
-<form class="flex column user-form default-gap" method="post" action="#">
+<form class="flex column user-form default-gap" method="post">
+    {% csrf_token %}
     {% if form.non_field_errors %}
         <div class="flex column error-field">
             {% for err in form.non_field_errors %}
