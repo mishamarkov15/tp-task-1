@@ -14,7 +14,7 @@ urlpatterns = [
     path("signup/", RegisterPageView.as_view(), name="register"),
     path("login/", LoginPageView.as_view(), name="login"),
     path("logout/", LogoutPageView.as_view(), name="logout"),
-    path("settings/", SettingsPageView.as_view(), name="settings"),
+    path("profile/edit/<int:pk>/", SettingsPageView.as_view(), name="settings"),
     path("tag/<int:pk>/", TagPageView.as_view(), name="tag"),
 ]
 

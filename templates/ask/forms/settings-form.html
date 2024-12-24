@@ -1,26 +1,43 @@
 {% load static %}
-<form class="flex column user-form default-gap" method="post" action="#">
-    <div class="flex ask-field-wrapper default-gap">
-        <label class="login-label" for="ask-title">Логин</label>
-        <input class="ask-field" id="ask-title" type="text" placeholder="Введите новый логин" required value="dr.pepper">
-    </div>
+<form class="flex column user-form default-gap" method="post">
+{% csrf_token %}
+    {% if form.non_field_errors %}
+        <div class="flex column error-field">
+            {% for err in form.non_field_errors %}
+                <p class="form-error">
+                    {{ err }}
+                </p>
+            {% endfor %}
+        </div>
+    {% endif %}
 
-    <div class="flex ask-field-wrapper default-gap">
-        <label class="login-label" for="ask-tags">Почта</label>
-        <input class="ask-field" id="ask-tags" type="email" placeholder="Введите новую почту" required value="dr.pepper@mail.ru">
-    </div>
+    {% for field in form %}
+        <div class="flex ask-field-wrapper default-gap">
+            {{ field.erros }}
+            <label class="login-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+        </div>
+    {% endfor %}
 
-    <div class="flex ask-field-wrapper default-gap">
-        <label class="login-label" for="ask-title">Никнейм</label>
-        <input class="ask-field" id="ask-title" type="text" placeholder="Введите новый никнейм" required value="Dr Pepper">
-    </div>
+    {#    <div class="flex ask-field-wrapper default-gap">#}
+    {#        <label class="login-label" for="ask-tags">Почта</label>#}
+    {#        <input class="ask-field" id="ask-tags" type="email" placeholder="Введите новую почту" required#}
+    {#               value="dr.pepper@mail.ru">#}
+    {#    </div>#}
+    {##}
+    {#    <div class="flex ask-field-wrapper default-gap">#}
+    {#        <label class="login-label" for="ask-title">Никнейм</label>#}
+    {#        <input class="ask-field" id="ask-title" type="text" placeholder="Введите новый никнейм" required#}
+    {#               value="Dr Pepper">#}
+    {#    </div>#}
+    {##}
+    {#    <div class="flex column ask-field-wrapper default-gap">#}
+    {#        <label class="user-label" for="ask-title">Аватар</label>#}
+    {#        <img alt="{{ request.user.username }} avatar" src="{% get_media_prefix %}ask/index/default_avatar.png"#}
+    {#             class="profile-img">#}
+    {#        <input class="ask-field" id="ask-tags" type="file" accept="image/png, image/gif, image/jpeg">#}
+    {#    </div>#}
 
-    <div class="flex column ask-field-wrapper default-gap">
-        <label class="user-label" for="ask-title">Аватар</label>
-        <img alt="Dr. Pepper avatar" src="{% get_media_prefix %}ask/index/default_avatar.png" class="profile-img">
-        <input class="ask-field" id="ask-tags" type="file" accept="image/png, image/gif, image/jpeg">
-    </div>
-
-    <button type="submit" class="btn-reset ask-btn">Войти</button>
+    <button type="submit" class="btn-reset ask-btn">Сохранить</button>
 
 </form>

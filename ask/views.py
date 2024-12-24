@@ -1,13 +1,14 @@
 from django.contrib import auth
+from django.contrib.auth.models import User
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.paginator import Paginator
 from django.db.models import QuerySet
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from django.views.generic import TemplateView, ListView, DetailView
+from django.views.generic import TemplateView, ListView, DetailView, UpdateView
 
 from ask import models
-from ask.forms import LoginForm
+from ask.forms import LoginForm, SettingsForm
 
 
 class AsideColumnView(object):
@@ -124,7 +125,7 @@ class LoginPageView(TemplateView, AsideColumnView):
 
     def get(self, request: WSGIRequest, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect(reverse('home:settings'))
+            return redirect(reverse('home:settings', kwargs={"pk": request.user.pk}))
         return super().get(request, *args, **kwargs)
 
     def post(self, request: WSGIRequest, *args, **kwargs):
@@ -139,7 +140,7 @@ class LoginPageView(TemplateView, AsideColumnView):
 
             if user:
                 auth.login(request, user)
-                return redirect(reverse('home:settings'))
+                return redirect(reverse('home:settings', kwargs={"pk": request.user.pk}))
 
         form.add_error(None, 'Неверно указан логин или пароль')
         return render(request, self.template_name, {'form': form})
@@ -165,11 +166,24 @@ class LogoutPageView(TemplateView, AsideColumnView):
         return redirect(reverse('home:index'))
 
 
-class SettingsPageView(TemplateView):
+class SettingsPageView(UpdateView, AsideColumnView):
     """
     Страница редактирования профиля пользователя, доступна по пути "/settings/"
     """
     template_name = 'ask/settings.html'
+    form_class = SettingsForm
+    model = User
+    extra_context = {
+        'top_tags': AsideColumnView().top_flags,
+    }
+
+    def get_success_url(self):
+        return reverse('home:settings', kwargs={'pk': self.kwargs["pk"]})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = SettingsForm(instance=self.get_object())
+        return context
 
 
 def paginate(object_list: QuerySet, request: WSGIRequest, paginate_by: int = 10, **kwargs) -> dict:
