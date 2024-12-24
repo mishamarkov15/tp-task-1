@@ -1,17 +1,25 @@
 <form class="flex column user-form default-gap" method="post" action="#">
-    <div class="flex column error-field">
-        <p>
-            Неверный пароль.
-        </p>
-    </div>
+    {% if form.non_field_errors %}
+        <div class="flex column error-field">
+            {% for err in form.non_field_errors %}
+                <p class="form-error">
+                    {{ err }}
+                </p>
+            {% endfor %}
+        </div>
+    {% endif %}
     <div class="flex ask-field-wrapper default-gap">
-        <label class="login-label" for="ask-title">Логин</label>
-        <input class="ask-field" id="ask-title" type="text" placeholder="Ваш логин" required>
+        <label class="login-label" for="{{ form.login.id_for_label }}">
+            {{ form.login.label }}
+        </label>
+        {{ form.login }}
     </div>
 
     <div class="flex ask-field-wrapper default-gap">
-        <label class="login-label" for="ask-tags">Пароль</label>
-        <input class="ask-field" id="ask-tags" type="password" placeholder="Ваш пароль">
+        <label class="login-label" for="{{ form.password.id_for_label }}">
+            {{ form.password.label }}
+        </label>
+        {{ form.password }}
     </div>
 
     <button type="submit" class="btn-reset ask-btn">Войти</button>

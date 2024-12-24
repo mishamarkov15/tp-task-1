@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView, ListView, DetailView
 
 from ask import models
+from ask.forms import LoginForm
 
 
 class AsideColumnView(object):
@@ -114,6 +115,13 @@ class LoginPageView(TemplateView):
     Страница авторизации пользователя, доступна по пути "/login/"
     """
     template_name = 'ask/login.html'
+    extra_context = {
+        'form': LoginForm(),
+    }
+
+    def post(self, request: HttpRequest, *args, **kwargs):
+        # form =
+        return super().post(request, *args, **kwargs)
 
 
 class LogoutPageView(TemplateView):
