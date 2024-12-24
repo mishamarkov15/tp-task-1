@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
 
 
 class LoginForm(forms.Form):
@@ -31,25 +32,7 @@ class LoginForm(forms.Form):
 class SettingsForm(forms.ModelForm):
     template_name_div = 'forms/settings-form.html'
 
-    old_password = forms.CharField(widget=forms.PasswordInput(
-        attrs={
-            'placeholder': 'Укажите при изменении пароля',
-        }
-    ), label='Старый пароль', required=False)
-
-    new_password = forms.CharField(widget=forms.PasswordInput(
-        attrs={
-            'placeholder': 'Введите новый пароль',
-        }
-    ), label='Новый пароль', required=False)
-
-    new_password_confirm = forms.CharField(widget=forms.PasswordInput(
-        attrs={
-            'placeholder': 'Подтвердите новый пароль',
-        }
-    ), label='Подтверждение пароля', required=False)
-
-    profile_picture = forms.ImageField(label='Загрузите новое фото', required=False)
+    profile_picture = forms.ImageField(label='Новый аватар', required=False)
 
     class Meta:
         model = User
@@ -60,11 +43,9 @@ class SettingsForm(forms.ModelForm):
             'first_name': 'Имя',
             'last_name': 'Фамилия',
         }
-        widgets = {
-
-        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'ask-field'
+

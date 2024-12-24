@@ -1,4 +1,5 @@
 from django.contrib import auth
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.paginator import Paginator
@@ -166,7 +167,7 @@ class LogoutPageView(TemplateView, AsideColumnView):
         return redirect(reverse('home:index'))
 
 
-class SettingsPageView(UpdateView, AsideColumnView):
+class SettingsPageView(LoginRequiredMixin, UpdateView, AsideColumnView):
     """
     Страница редактирования профиля пользователя, доступна по пути "/settings/"
     """

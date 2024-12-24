@@ -13,7 +13,7 @@
 
     {% for field in form %}
         <div class="flex ask-field-wrapper default-gap">
-            {{ field.erros }}
+            <div>{{ field.errors }}</div>
             <label class="login-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
             {{ field }}
         </div>
