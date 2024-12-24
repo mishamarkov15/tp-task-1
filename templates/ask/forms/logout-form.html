@@ -1,4 +1,5 @@
-<form class="flex column user-form default-gap" method="post" action="#">
+<form class="flex column user-form default-gap" method="post">
+    {% csrf_token %}
 
     <div class="flex warning-msg">
         <p>Вы уверены, что хотите выйти?</p>

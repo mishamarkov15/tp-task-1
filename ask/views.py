@@ -1,7 +1,7 @@
 from django.contrib import auth
+from django.core.handlers.wsgi import WSGIRequest
 from django.core.paginator import Paginator
 from django.db.models import QuerySet
-from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView, ListView, DetailView
@@ -58,7 +58,7 @@ class QuestionPageView(DetailView, AsideColumnView):
         'top_tags': AsideColumnView().top_flags,
     }
 
-    def get(self, request: HttpRequest, *args, **kwargs):
+    def get(self, request: WSGIRequest, *args, **kwargs):
         """
         Пока временно передаем заглушку в качестве query_set
         :param request:
@@ -90,7 +90,7 @@ class TagPageView(DetailView, AsideColumnView):
         'top_tags': AsideColumnView().top_flags
     }
 
-    def get(self, request: HttpRequest, *args, **kwargs):
+    def get(self, request: WSGIRequest, *args, **kwargs):
         """
 
         :param request:
@@ -122,12 +122,12 @@ class LoginPageView(TemplateView, AsideColumnView):
         'top_tags': AsideColumnView().top_flags,
     }
 
-    def get(self, request: HttpRequest, *args, **kwargs):
+    def get(self, request: WSGIRequest, *args, **kwargs):
         if request.user.is_authenticated:
             return redirect(reverse('home:settings'))
-        return super().get(*args, **kwargs)
+        return super().get(request, *args, **kwargs)
 
-    def post(self, request: HttpRequest, *args, **kwargs):
+    def post(self, request: WSGIRequest, *args, **kwargs):
         form = LoginForm(request.POST)
         if form.is_valid():
             login = form.cleaned_data.get('login')
@@ -145,11 +145,24 @@ class LoginPageView(TemplateView, AsideColumnView):
         return render(request, self.template_name, {'form': form})
 
 
-class LogoutPageView(TemplateView):
+class LogoutPageView(TemplateView, AsideColumnView):
     """
     Страница выхода пользователя, доступна по пути "/logout/"
     """
     template_name = 'ask/logout.html'
+    extra_context = {
+        'top_tags': AsideColumnView().top_flags,
+    }
+
+    def get(self, request: WSGIRequest, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect(reverse('home:index'))
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request: WSGIRequest, *args, **kwargs):
+        if request.user.is_authenticated:
+            auth.logout(request)
+        return redirect(reverse('home:index'))
 
 
 class SettingsPageView(TemplateView):
@@ -159,7 +172,7 @@ class SettingsPageView(TemplateView):
     template_name = 'ask/settings.html'
 
 
-def paginate(object_list: QuerySet, request: HttpRequest, paginate_by: int = 10, **kwargs) -> dict:
+def paginate(object_list: QuerySet, request: WSGIRequest, paginate_by: int = 10, **kwargs) -> dict:
     """
     Обработка исключений не нужна, так как если пользователь укажет неверный номер страницы,
     пагинатор не выкинет исключений, а вернет ближайшую корректную страницу.

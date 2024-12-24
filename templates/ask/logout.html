@@ -17,6 +17,6 @@
             <h1 class="h-reset main-header">Выход</h1>
             {% include 'ask/forms/logout-form.html' %}
         </section>
-        {% include 'ask/aside-col.html' %}
+        {% include 'ask/aside-col.html' with top=top_tags%}
     </main>
 {% endblock %}
