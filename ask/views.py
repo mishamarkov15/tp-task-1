@@ -112,14 +112,20 @@ class RegisterPageView(TemplateView):
     template_name = 'ask/register.html'
 
 
-class LoginPageView(TemplateView):
+class LoginPageView(TemplateView, AsideColumnView):
     """
     Страница авторизации пользователя, доступна по пути "/login/"
     """
     template_name = 'ask/login.html'
     extra_context = {
         'form': LoginForm(),
+        'top_tags': AsideColumnView().top_flags,
     }
+
+    def get(self, request: HttpRequest, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect(reverse('home:settings'))
+        return super().get(*args, **kwargs)
 
     def post(self, request: HttpRequest, *args, **kwargs):
         form = LoginForm(request.POST)
@@ -133,7 +139,7 @@ class LoginPageView(TemplateView):
 
             if user:
                 auth.login(request, user)
-                return redirect(reverse('home:index'))
+                return redirect(reverse('home:settings'))
 
         form.add_error(None, 'Неверно указан логин или пароль')
         return render(request, self.template_name, {'form': form})
