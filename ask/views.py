@@ -142,6 +142,8 @@ class LoginPageView(TemplateView, AsideColumnView):
 
     def get(self, request: WSGIRequest, *args, **kwargs):
         if request.user.is_authenticated:
+            if c := request.GET.get('continue', None):
+                return redirect(c)
             return redirect(reverse('home:settings', kwargs={"pk": request.user.pk}))
         return super().get(request, *args, **kwargs)
 
@@ -157,6 +159,8 @@ class LoginPageView(TemplateView, AsideColumnView):
 
             if user:
                 auth.login(request, user)
+                if c := request.GET.get('continue', None):
+                    return redirect(c)
                 return redirect(reverse('home:settings', kwargs={"pk": request.user.pk}))
 
         form.add_error(None, 'Неверно указан логин или пароль')
