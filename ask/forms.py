@@ -125,7 +125,6 @@ class RegisterForm(forms.ModelForm):
         user.save()
 
         profile = Profile.objects.create(user=user)
-        print(self.cleaned_data)
         profile.avatar = self.cleaned_data.get('avatar', None)
         profile.save()
 
