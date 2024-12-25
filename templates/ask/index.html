@@ -58,3 +58,7 @@
         {% include 'ask/aside-col.html' with top=top_tags %}
     </main>
 {% endblock %}
+
+{% block end-body-scripts %}
+    <script src="{% static 'ask/js/app.js' %}" type="text/javascript"></script>
+{% endblock %}

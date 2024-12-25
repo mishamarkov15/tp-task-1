@@ -97,6 +97,8 @@ class AskPageView(LoginRequiredMixin, TemplateView, AsideColumnView):
         form = QuestionForm(request.POST)
         if form.is_valid():
             question = form.save()
+            question.profile = models.Profile.objects.get(user_id=request.user.pk)
+            question.save()
             return redirect(reverse('home:question', kwargs={"pk": question.pk}))
         return render(request, self.template_name, {'form': form})
 
