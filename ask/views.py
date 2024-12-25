@@ -1,9 +1,12 @@
+import json
+
 from django.contrib import auth
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.core.handlers.wsgi import WSGIRequest
 from django.core.paginator import Paginator
 from django.db.models import QuerySet
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView
@@ -77,7 +80,7 @@ class QuestionPageView(DetailView, AsideColumnView):
             answer.question = self.object
             answer.profile = models.Profile.objects.get(user_id=request.user.pk)
             answer.save()
-            return redirect(f"{reverse('home:question',  kwargs={'pk': self.object.pk})}#answer_{answer.pk}")
+            return redirect(f"{reverse('home:question', kwargs={'pk': self.object.pk})}#answer_{answer.pk}")
         context['form'] = form
         return render(request, self.template_name, context)
 
@@ -210,6 +213,7 @@ class SettingsPageView(LoginRequiredMixin, UpdateView, AsideColumnView):
     """
     template_name = 'ask/settings.html'
     form_class = SettingsForm
+    login_url = 'home:login'
     model = User
     extra_context = {
         'top_tags': AsideColumnView().top_flags,
@@ -222,6 +226,22 @@ class SettingsPageView(LoginRequiredMixin, UpdateView, AsideColumnView):
         context = super().get_context_data(**kwargs)
         context['form'] = SettingsForm(instance=self.get_object())
         return context
+
+
+class LikeAsync(LoginRequiredMixin, TemplateView):
+    """"""
+    login_url = 'home:login'
+
+    def post(self, request: WSGIRequest, *args, **kwargs):
+        body = json.loads(request.body)
+        profile, created = models.Profile.objects.get_or_create(user=request.user)
+        if "question_id" not in body.keys():
+            return JsonResponse({"status": "error", "message": "You must pass question_id key to request"})
+        likes_on_question = models.QuestionLike.objects.filter(question_id=body["question_id"])
+        like_for_profile = likes_on_question.filter(profile=profile)
+        if not like_for_profile.exists():
+            models.QuestionLike.objects.create(profile=profile, question_id=body["question_id"])
+        return JsonResponse({"status": "ok", "likes_count": likes_on_question.count()})
 
 
 def paginate(object_list: QuerySet, request: WSGIRequest, paginate_by: int = 10, **kwargs) -> dict:

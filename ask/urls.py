@@ -10,6 +10,7 @@ urlpatterns = [
     path("", IndexPageView.as_view(), name="index"),
     path("hot/", HotQuestionsPageView.as_view(), name="hot"),
     path("question/<int:pk>/", QuestionPageView.as_view(), name="question"),
+    path("question/<int:pk>/like", LikeAsync.as_view(), name="question-like-async"),
     path("ask/", AskPageView.as_view(), name="ask"),
     path("signup/", RegisterPageView.as_view(), name="register"),
     path("login/", LoginPageView.as_view(), name="login"),

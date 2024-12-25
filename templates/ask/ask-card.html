@@ -1,5 +1,5 @@
 {% load static %}
-<article class="flex question-article default-gap">
+<article class="flex question-article default-gap" data-question-id="{{ obj.pk }}">
     <div class="flex avatar-col col-slave column default-gap">
         <img alt="Аватар пользователя" class="profile-img"
              {% if obj.profile.avatar %}
@@ -9,7 +9,7 @@
              {% endif %}
         >
         <div>
-            <span>{{ obj.likes.count }}</span>
+            <span class="like-counter">{{ obj.likes.count }}</span>
         <button class="btn-reset pagination-btn like-btn" type="button"
                 {% if not request.user.is_authenticated %}
                     disabled
