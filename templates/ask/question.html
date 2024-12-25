@@ -14,6 +14,7 @@
 {% endblock %}
 
 {% block body %}
+    {% csrf_token %}
     <main class="flex main-block main-margin">
         <section id="main-col" class="flex column">
             {% include 'ask/ask-card.html' with obj=object %}
@@ -98,4 +99,8 @@
         </section>
         {% include 'ask/aside-col.html' with top=top_tags %}
     </main>
+{% endblock %}
+
+{% block end-body-scripts %}
+    <script src="{% static 'ask/js/likes.js' %}" type="text/javascript"></script>
 {% endblock %}
