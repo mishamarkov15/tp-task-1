@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
-from ask.models import Profile, Question
+from ask.models import Profile, Question, Answer
 
 
 class LoginForm(forms.Form):
@@ -167,3 +167,17 @@ class QuestionForm(forms.ModelForm):
             self.add_error('tags', 'Укажите хотя бы один тэг')
             raise ValidationError('Неверно указаны теги')
         return tags
+
+
+class AnswerForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        fields = (
+            'content',
+        )
+        widgets = {
+            'content': forms.Textarea(attrs={
+                "placeholder": 'поделитесь Вашим ответом здесь',
+                "class": 'full-wide-textarea',
+            })
+        }

@@ -9,7 +9,7 @@ from django.urls import reverse
 from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView
 
 from ask import models
-from ask.forms import LoginForm, SettingsForm, RegisterForm, QuestionForm
+from ask.forms import LoginForm, SettingsForm, RegisterForm, QuestionForm, AnswerForm
 
 
 class AsideColumnView(object):
@@ -58,21 +58,28 @@ class QuestionPageView(DetailView, AsideColumnView):
     model = models.Question
     extra_context = {
         'top_tags': AsideColumnView().top_flags,
+        'form': AnswerForm(),
     }
 
-    def get(self, request: WSGIRequest, *args, **kwargs):
-        """
-        Пока временно передаем заглушку в качестве query_set
-        :param request:
-        :param args:
-        :param kwargs:
-        :return:
-        """
+    def get_context_data(self, **kwargs):
         self.object = self.get_object()
         answers = models.Answer.objects.filter(question_id=self.object.pk)
-        context = self.get_context_data(*args, **kwargs)
-        context.update(paginate(answers, request, paginate_by=10, **kwargs))
-        return self.render_to_response(context)
+        context = super().get_context_data(**kwargs)
+        context.update(paginate(answers, self.request, paginate_by=10, **kwargs))
+        return context
+
+    def post(self, request: WSGIRequest, *args, **kwargs):
+        form = AnswerForm(request.POST)
+        self.object = self.get_object()
+        context = self.get_context_data(**kwargs)
+        if form.is_valid():
+            answer = form.save(False)
+            answer.question = self.object
+            answer.profile = models.Profile.objects.get(user_id=request.user.pk)
+            answer.save()
+            return redirect(f"{reverse('home:question',  kwargs={'pk': self.object.pk})}#answer_{answer.pk}")
+        context['form'] = form
+        return render(request, self.template_name, context)
 
 
 class AskPageView(LoginRequiredMixin, TemplateView, AsideColumnView):
