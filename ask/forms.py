@@ -51,6 +51,14 @@ class SettingsForm(forms.ModelForm):
         for visible in self.visible_fields():
             visible.field.widget.attrs['class'] = 'ask-field'
 
+    def save(self, commit=True):
+        user: User = super().save(False)
+        profile, is_created = Profile.objects.get_or_create(user=user)
+        profile.avatar = self.cleaned_data['profile_picture']
+        profile.save()
+        user.save()
+        return user
+
 
 class RegisterForm(forms.ModelForm):
     template_name_div = 'forms/register-form.html'

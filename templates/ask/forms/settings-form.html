@@ -1,5 +1,5 @@
 {% load static %}
-<form class="flex column user-form default-gap" method="post">
+<form class="flex column user-form default-gap" method="post" enctype="multipart/form-data">
 {% csrf_token %}
     {% if form.non_field_errors %}
         <div class="flex column error-field">
