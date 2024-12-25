@@ -60,6 +60,7 @@ body {
 }
 
 .col-slave {
+    min-width: 10%;
     flex-grow: 1;
 }
 
