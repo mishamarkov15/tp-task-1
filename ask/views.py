@@ -136,12 +136,8 @@ class RegisterPageView(TemplateView, AsideColumnView):
         'form': RegisterForm()
     }
 
-    def get(self, request: WSGIRequest, *args, **kwargs):
-        if request.user.is_authenticated:
-            return
-
     def post(self, request: WSGIRequest, *args, **kwargs):
-        form = RegisterForm(request.POST)
+        form = RegisterForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             auth.login(request, user)

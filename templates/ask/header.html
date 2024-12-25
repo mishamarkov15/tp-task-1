@@ -1,4 +1,5 @@
 {% load static %}
+{% load profile_finder %}
 <header class="header">
     <div class="header-wrapper flex">
         <div class="main-logo col-slave">
@@ -16,7 +17,7 @@
             {% if request.user.is_authenticated %}
                 <a href="{% url 'home:settings' pk=request.user.pk %}" class="link-reset">
                     <img class="profile-img" alt="Profile logo"
-                         src="{% get_media_prefix %}ask/index/default_avatar.png">
+                         src="{% get_media_prefix %}/{{ request.user.pk|avatar }}">
                 </a>
                 <div class="flex column username-wrapper">
                     <div>

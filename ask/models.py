@@ -8,14 +8,24 @@ class DropManager(models.Manager):
         self.all().delete()
 
 
+def handle_upload_to(instance, filename):
+    """
+
+    :param instance:
+    :param filename:
+    :return:
+    """
+    return f"avatars/user_{instance.user.pk}/{filename}"
+
+
 class Profile(models.Model):
     class Meta:
         db_table = "profile"
         verbose_name = "User profile"
         verbose_name_plural = "User's profiles"
 
-    avatar = models.ImageField(verbose_name='Картинка профиля', help_text='Размер до 10МБ')
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    avatar = models.ImageField(verbose_name='Картинка профиля', help_text='Размер до 10МБ', upload_to=handle_upload_to)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='profile')
 
     objects = DropManager()
 
