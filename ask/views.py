@@ -241,7 +241,10 @@ class LikeAsync(LoginRequiredMixin, TemplateView):
         like_for_profile = likes_on_question.filter(profile=profile)
         if not like_for_profile.exists():
             models.QuestionLike.objects.create(profile=profile, question_id=body["question_id"])
-        return JsonResponse({"status": "ok", "likes_count": likes_on_question.count()})
+            return JsonResponse({"status": "ok", "likes_count": likes_on_question.count(), "type": "like"})
+        else:
+            like_for_profile.delete()
+            return JsonResponse({"status": "ok", "likes_count": likes_on_question.count(), "type": "dislike"})
 
 
 def paginate(object_list: QuerySet, request: WSGIRequest, paginate_by: int = 10, **kwargs) -> dict:

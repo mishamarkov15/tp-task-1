@@ -42,3 +42,22 @@
     max-width: calc( (100% - var(--80-percents)) * 0.5);
     align-items: center;
 }
+
+.like-btn {
+    height: 32px;
+    width: 32px;
+    background: url("../assets/heart.png") no-repeat center center;
+}
+
+.like-btn.active {
+    background: url("../assets/heart-active.png") no-repeat center center;
+}
+
+.like-btn:hover {
+    cursor: pointer;
+}
+
+.like-container-center {
+    justify-content: center;
+    align-items: center;
+}

@@ -23,9 +23,8 @@ for (const question of questions) {
     const questionId = question.dataset.questionId;
     const likeButton = question.querySelector('.like-btn');
     const likeCounter = question.querySelector('.like-counter');
-    // console.log({question, likeButton, likeCounter});
     likeButton.addEventListener('click', () => {
-      const request = new Request(`question/${questionId}/like`, {
+      const request = new Request(`question/${questionId}/likes`, {
           method: "POST",
           headers: {
               'X-CSRFToken': csrftoken,

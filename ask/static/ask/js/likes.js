@@ -25,7 +25,7 @@ for (const question of questions) {
     const likeCounter = question.querySelector('.like-counter');
     // console.log({question, likeButton, likeCounter});
     likeButton.addEventListener('click', () => {
-      const request = new Request(`question/${questionId}/like`, {
+      const request = new Request(`/question/${questionId}/like`, {
           method: "POST",
           headers: {
               'X-CSRFToken': csrftoken,
@@ -40,6 +40,12 @@ for (const question of questions) {
                   (data) => {
                       console.log(data);
                       likeCounter.innerHTML = data.likes_count;
+                      console.log("classList: " + likeButton.classList);
+                      if (data.type === 'like') {
+                          likeButton.classList.add("active");
+                      } else {
+                          likeButton.classList.remove("active");
+                      }
                   }
               )
           })
