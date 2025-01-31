@@ -2,7 +2,7 @@
 
 {% block meta %}{% endblock %}
 
-{% block title %}How to correct compare two double in C++?{% endblock %}
+{% block title %}{{ object.title }}{% endblock %}
 
 {% load static %}
 
@@ -102,5 +102,7 @@
 {% endblock %}
 
 {% block end-body-scripts %}
+    <script src="{% static 'third_party/js/jquery-3.7.1.min' %}" type="text/javascript"></script>
+    <script src="{% static 'ask/js/jquery_test.js' %}" type="text/javascript"></script>
     <script src="{% static 'ask/js/likes.js' %}" type="text/javascript"></script>
 {% endblock %}
